@@ -1,10 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import Header from "./components/header.component.js";
-import TaskFilter from "./components/taskfilter.component.js";
-import TaskList from "./components/tasklist.component.js";
-import Footer from "./components/footer.component.js";
+import Header from "./components/Header";
+import TaskFilter from "./components/TaskFilter";
+import TaskList from "./components/TaskList";
+import Footer from "./components/Footer";
 
 function App() {
   return (
