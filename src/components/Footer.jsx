@@ -2,7 +2,7 @@ import {Github} from "react-bootstrap-icons";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 
-const Footer = () => {
+function Footer() {
   return (
     <footer>
       <Container className="p-4">
@@ -21,6 +21,6 @@ const Footer = () => {
       </Container>
     </footer>
   );
-};
+}
 
 export default Footer;

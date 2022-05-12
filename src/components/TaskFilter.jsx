@@ -8,20 +8,8 @@ import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-const TaskFilter = () => {
-  const FilterDroplist = () => (
-    <Dropdown title="Filter">
-      <Dropdown.Item href="#/action-1">Your Tasks</Dropdown.Item>
-      <Dropdown.Item href="#/action-2">
-        Everything assigned to you
-      </Dropdown.Item>
-      <Dropdown.Item href="#/action-3">
-        View advanced search syntax
-      </Dropdown.Item>
-    </Dropdown>
-  );
-
-  const SearchForm = () => (
+function SearchForm(props) {
+  return (
     <InputGroup className="mb-3">
       <FormControl
         placeholder="Search Tasks"
@@ -33,7 +21,23 @@ const TaskFilter = () => {
       </Button>
     </InputGroup>
   );
+}
 
+function FilterDroplist(props) {
+  return (
+    <Dropdown title="Filter">
+      <Dropdown.Item href="#/action-1">Your Tasks</Dropdown.Item>
+      <Dropdown.Item href="#/action-2">
+        Everything assigned to you
+      </Dropdown.Item>
+      <Dropdown.Item href="#/action-3">
+        View advanced search syntax
+      </Dropdown.Item>
+    </Dropdown>
+  );
+}
+
+function TaskFilter(props) {
   return (
     <Container className="p-4">
       <Row>
@@ -54,6 +58,6 @@ const TaskFilter = () => {
       </Row>
     </Container>
   );
-};
+}
 
 export default TaskFilter;

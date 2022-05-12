@@ -2,7 +2,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 
-const Header = ({title, user}) => {
+function Header({title, user}) {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container className="ps-4">
@@ -20,7 +20,7 @@ const Header = ({title, user}) => {
       </Container>
     </Navbar>
   );
-};
+}
 
 Header.defaultProps = {
   title: "Task Tracker"
