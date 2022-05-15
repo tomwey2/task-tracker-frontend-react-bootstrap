@@ -1,3 +1,4 @@
+import {Flower2} from "react-bootstrap-icons";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
@@ -6,7 +7,10 @@ function Header({title, user}) {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container className="ps-4">
-        <Navbar.Brand>{title}</Navbar.Brand>
+        <Navbar.Brand>
+          <Flower2 className="me-2" />
+          {title}
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto me-4">
