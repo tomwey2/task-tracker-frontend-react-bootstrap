@@ -1,13 +1,12 @@
+import {Link} from "react-router-dom";
+
 import {Flower2} from "react-bootstrap-icons";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 function RegisterForm({title}) {
   return (
@@ -55,9 +54,9 @@ function RegisterForm({title}) {
             <Card.Body>
               <p className="text-center">
                 Already have an account?
-                <a className="ms-2">
+                <Link to="/login" className="ms-2">
                   <b>Sign in</b>
-                </a>
+                </Link>
               </p>
             </Card.Body>
           </Card>

@@ -1,15 +1,30 @@
+import {useNavigate, useLocation} from "react-router";
+import {Link} from "react-router-dom";
+
 import {Flower2} from "react-bootstrap-icons";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 
-function LoginForm({title}) {
+function LoginForm({title, onChangeUser}) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const onSubmit = e => {
+    e.preventDefault();
+
+    onChangeUser("tomwey2");
+    if (location.state?.from) {
+      console.log(location.state?.from);
+      navigate(location.state.from);
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <Container className="mt-3">
       <Row className="justify-content-center">
@@ -21,7 +36,7 @@ function LoginForm({title}) {
 
           <Card>
             <Card.Header>
-              <Form>
+              <Form onSubmit={onSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
                   <Form.Control type="email" />
@@ -44,9 +59,9 @@ function LoginForm({title}) {
             <Card.Body>
               <p className="text-center">
                 New to Task Tracker?
-                <a className="ms-2">
+                <Link to="/register" className="ms-2">
                   <b>Create an account</b>
-                </a>
+                </Link>
               </p>
             </Card.Body>
           </Card>
