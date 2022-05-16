@@ -1,4 +1,5 @@
 import {useNavigate, useLocation} from "react-router";
+import {useState} from "react";
 import {Link} from "react-router-dom";
 
 import {Flower2} from "react-bootstrap-icons";
@@ -8,14 +9,29 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import UserService from "../services/user-service";
 
 function LoginForm({title, onChangeUser}) {
   const navigate = useNavigate();
   const location = useLocation();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onChangeUsername = e => {
+    const username = e.target.value;
+    console.log("changed username: " + username);
+    setUsername(username);
+  };
+  const onChangePassword = e => {
+    const password = e.target.value;
+    console.log("changed password: " + password);
+    setPassword(password);
+  };
 
   const onSubmit = e => {
     e.preventDefault();
 
+    UserService.login(username, password);
     onChangeUser("tomwey2");
     if (location.state?.from) {
       console.log(location.state?.from);
@@ -39,7 +55,7 @@ function LoginForm({title, onChangeUser}) {
               <Form onSubmit={onSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" />
+                  <Form.Control type="email" onChange={onChangeUsername} />
                   <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
                   </Form.Text>
@@ -47,7 +63,7 @@ function LoginForm({title, onChangeUser}) {
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" />
+                  <Form.Control type="password" onChange={onChangePassword} />
                 </Form.Group>
                 <div className="d-grid">
                   <Button variant="primary" type="submit">
