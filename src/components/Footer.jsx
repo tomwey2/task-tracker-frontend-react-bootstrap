@@ -2,6 +2,9 @@ import {Github} from "react-bootstrap-icons";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 
+/*
+ * The footer component with copyright info and links to social media.
+ */
 function Footer() {
   return (
     <footer>

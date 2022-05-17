@@ -10,7 +10,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-import {register} from "../services/user-service";
+import {register} from "../../services/user-service";
 
 /*
  * Component for the user register formular.
@@ -123,7 +123,7 @@ function RegisterForm({title}) {
 }
 
 RegisterForm.defaultProps = {
-  title: "Sign up to Task Tracker"
+  title: "Sign up to Tasks Tracker"
 };
 
 export default RegisterForm;

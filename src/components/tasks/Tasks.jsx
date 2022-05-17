@@ -1,12 +1,17 @@
 import {useNavigate} from "react-router";
 import {useState, useEffect} from "react";
+import {getTasksReportedByUser} from "../../services/task-service";
 
+// Embedded components
 import TaskFilter from "./TaskFilter";
 import TaskList from "./TaskList";
 
-import {getTasksReportedByUser} from "../services/task-service";
-
-function Main({user}) {
+/*
+ * Main Component for the list of user tasks .
+ * This component contains sub components to set a tasks filter
+ * and to list all tasks (as table).
+ */
+function Tasks({user}) {
   const navigate = useNavigate();
   const [openTasks, setOpenTasks] = useState([]);
   const [closedTasks, setClosedTasks] = useState([]);
@@ -55,7 +60,7 @@ function Main({user}) {
   );
 }
 
-let tasks = [
+let testdata = [
   {
     id: "1",
     text: "Food shopping",
@@ -82,4 +87,4 @@ let tasks = [
   }
 ];
 
-export default Main;
+export default Tasks;

@@ -4,6 +4,9 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
+/*
+ * The home page of the task tracker application.
+ */
 function Home({user}) {
   return (
     <Container className="p-4 text-center">

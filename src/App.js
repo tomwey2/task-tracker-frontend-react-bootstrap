@@ -5,11 +5,11 @@ import "./App.css";
 
 import ProtectedRoutes from "./ProtectedRoutes";
 import Home from "./components/Home";
-import Main from "./components/Main";
+import Tasks from "./components/tasks/Tasks";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import RegisterForm from "./components/RegisterForm";
-import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/user/RegisterForm";
+import LoginForm from "./components/user/LoginForm";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -37,10 +37,10 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home user={user} />} />
         <Route element={<ProtectedRoutes user={user} />}>
-          <Route path="/tasks" element={<Main user={user} />} />
+          <Route path="/tasks" element={<Tasks user={user} />} />
           <Route
             path="/tasks/open"
-            element={<Main user={user} open={true} />}
+            element={<Tasks user={user} open={true} />}
           />
         </Route>
         <Route

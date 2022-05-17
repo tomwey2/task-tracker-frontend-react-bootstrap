@@ -5,6 +5,9 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 
+/*
+ * The header component with brand (left) and user info/commands (right).
+ */
 function Header({title, user, onLogoutUser}) {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">

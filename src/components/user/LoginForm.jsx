@@ -10,7 +10,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-import {login} from "../services/user-service";
+import {login} from "../../services/user-service";
 
 /*
  * Component for the user login formular.
@@ -115,7 +115,7 @@ function LoginForm({title, onChangeUser}) {
 }
 
 LoginForm.defaultProps = {
-  title: "Sign in to Task Tracker"
+  title: "Sign in to Tasks Tracker"
 };
 
 export default LoginForm;
