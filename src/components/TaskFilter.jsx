@@ -8,11 +8,11 @@ import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function SearchForm(props) {
+function SearchForm({requestQuery}) {
   return (
     <InputGroup className="mb-3">
       <FormControl
-        placeholder="Search Tasks"
+        placeholder={requestQuery}
         aria-label="Search"
         aria-describedby="basic-addon2"
       />
@@ -37,7 +37,7 @@ function FilterDroplist(props) {
   );
 }
 
-function TaskFilter(props) {
+function TaskFilter({requestQuery}) {
   return (
     <Container className="p-4">
       <Row>
@@ -45,7 +45,7 @@ function TaskFilter(props) {
           <FilterDroplist />
         </Col>
         <Col xs={12} md={6}>
-          <SearchForm />
+          <SearchForm requestQuery={requestQuery} />
         </Col>
         <Col xs={12} md={4}>
           <Button className="ms-auto" variant="outline-secondary">

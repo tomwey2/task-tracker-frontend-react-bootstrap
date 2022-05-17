@@ -38,6 +38,10 @@ function App() {
         <Route exact path="/" element={<Home user={user} />} />
         <Route element={<ProtectedRoutes user={user} />}>
           <Route path="/tasks" element={<Main user={user} />} />
+          <Route
+            path="/tasks/open"
+            element={<Main user={user} open={true} />}
+          />
         </Route>
         <Route
           path="/login"
