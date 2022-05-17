@@ -78,12 +78,12 @@ function TaskRow({task, onSelectTask}) {
         <b>{task.text}</b>
         <small>
           <p>
-            #{task.id} reported by {task.reportedBy}
+            #{task.id} reported by {task.reportedBy.name}
           </p>
         </small>
       </td>
       <td></td>
-      <td align="right">{task.assignees.map(x => x).join(", ")}</td>
+      <td align="right">{task.assignees.map(x => x.name).join(", ")}</td>
     </tr>
   );
 }
@@ -102,34 +102,7 @@ function CardBody({tasks, onSelectTask}) {
   );
 }
 
-function TaskList({countOpen, countClosed, onSelectTask}) {
-  let tasks = [
-    {
-      id: "1",
-      text: "Food shopping",
-      description: "One time in week food must be bought.",
-      reportedBy: "John Doe",
-      project: "p1",
-      assignees: ["John Doe"]
-    },
-    {
-      id: "2",
-      text: "Doctor appointment",
-      description: "Meet the doctor to ask him about new set of medicament",
-      reportedBy: "John Doe",
-      project: "p1",
-      assignees: ["John Doe", "Jane Doe"]
-    },
-    {
-      id: "3",
-      text: "School party preparation",
-      description: "",
-      reportedBy: "John Doe",
-      project: "p1",
-      assignees: ["John Doe"]
-    }
-  ];
-
+function TaskList({tasks, countOpen, countClosed, onSelectTask}) {
   return (
     <Container>
       <Card>
