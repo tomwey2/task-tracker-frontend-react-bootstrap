@@ -30,7 +30,7 @@ function Home({user}) {
       </ButtonGroup>
 
       <p></p>
-      <Link to="/main" className="btn btn-success" role="button">
+      <Link to="/tasks" className="btn btn-success" role="button">
         Get Started
       </Link>
     </Container>
