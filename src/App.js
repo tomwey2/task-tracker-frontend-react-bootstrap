@@ -14,9 +14,14 @@ import LoginForm from "./components/LoginForm";
 function App() {
   const [user, setUser] = useState(null);
 
-  const handleLogin = username => {
+  const handleLogin = (username, accessToken, refreshToken) => {
     console.log("handleLogin");
-    setUser({username: username, roles: ["user"]});
+    setUser({
+      username: username,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      roles: ["user"]
+    });
   };
 
   const handleLogout = username => {

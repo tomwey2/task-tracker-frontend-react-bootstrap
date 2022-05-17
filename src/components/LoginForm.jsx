@@ -9,36 +9,49 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import UserService from "../services/user-service";
+import login from "../services/user-service";
 
 function LoginForm({title, onChangeUser}) {
   const navigate = useNavigate();
   const location = useLocation();
+  const [errorMessage, setErrorMessage] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const onChangeUsername = e => {
     const username = e.target.value;
-    console.log("changed username: " + username);
     setUsername(username);
   };
   const onChangePassword = e => {
     const password = e.target.value;
-    console.log("changed password: " + password);
     setPassword(password);
   };
 
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
 
-    UserService.login(username, password);
-    onChangeUser("tomwey2");
-    if (location.state?.from) {
-      console.log(location.state?.from);
-      navigate(location.state.from);
-    } else {
-      navigate("/");
-    }
+    await login(username, password)
+      // Authentication of user was successful
+      .then(response => {
+        console.log("Login success", response);
+        setErrorMessage(null);
+        onChangeUser(
+          response.data.email,
+          response.data.accessToken,
+          response.data.refreshToken
+        );
+        // redirect to uri
+        if (location.state?.from) {
+          navigate(location.state.from);
+        } else {
+          navigate("/");
+        }
+      })
+      // Authentication was unsuccessful
+      .catch(error => {
+        console.log("Login failed", error.response);
+        setErrorMessage(error.response.data.message);
+      });
   };
 
   return (
@@ -49,7 +62,11 @@ function LoginForm({title, onChangeUser}) {
             <Flower2 size={50} />
           </Container>
           <h3 className="mt-2 text-center">{title}</h3>
-
+          {errorMessage != null ? (
+            <h5 className="text-danger mt-2 text-center">{errorMessage}</h5>
+          ) : (
+            <></>
+          )}
           <Card>
             <Card.Header>
               <Form onSubmit={onSubmit}>
