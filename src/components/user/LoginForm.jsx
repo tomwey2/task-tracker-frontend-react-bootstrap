@@ -115,7 +115,7 @@ function LoginForm({title, onChangeUser}) {
 }
 
 LoginForm.defaultProps = {
-  title: "Sign in to Tasks Tracker"
+  title: "Sign in to Task Tracker"
 };
 
 export default LoginForm;

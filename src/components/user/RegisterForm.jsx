@@ -123,7 +123,7 @@ function RegisterForm({title}) {
 }
 
 RegisterForm.defaultProps = {
-  title: "Sign up to Tasks Tracker"
+  title: "Sign up to Task Tracker"
 };
 
 export default RegisterForm;
