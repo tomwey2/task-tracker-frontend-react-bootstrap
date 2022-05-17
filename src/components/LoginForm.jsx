@@ -9,28 +9,38 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import login from "../services/user-service";
 
+import {login} from "../services/user-service";
+
+/*
+ * Component for the user login formular.
+ * If the login is successful then the user is redirected either to the
+ * target page or the home page of the task tracker.
+ * If the login is unsuccessful then the error messages is shown.
+ */
 function LoginForm({title, onChangeUser}) {
   const navigate = useNavigate();
   const location = useLocation();
   const [errorMessage, setErrorMessage] = useState(null);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    password: ""
+  });
 
   const onChangeUsername = e => {
     const username = e.target.value;
-    setUsername(username);
+    setFormData({...formData, username: username});
   };
+
   const onChangePassword = e => {
     const password = e.target.value;
-    setPassword(password);
+    setFormData({...formData, password: password});
   };
 
   const onSubmit = async e => {
     e.preventDefault();
 
-    await login(username, password)
+    await login(formData.username, formData.password)
       // Authentication of user was successful
       .then(response => {
         console.log("Login success", response);
