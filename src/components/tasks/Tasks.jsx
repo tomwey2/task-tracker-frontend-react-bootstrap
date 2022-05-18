@@ -1,5 +1,6 @@
-import {useNavigate} from "react-router";
 import {useState, useEffect} from "react";
+import {Routes, Route, Outlet} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {getTasksReportedByUser} from "../../services/task-service";
 
 // Embedded components
@@ -12,6 +13,7 @@ import TaskList from "./TaskList";
  * and to list all tasks (as table).
  */
 function Tasks({user}) {
+  console.log("Tasks");
   const navigate = useNavigate();
   const [openTasks, setOpenTasks] = useState([]);
   const [closedTasks, setClosedTasks] = useState([]);
@@ -20,6 +22,10 @@ function Tasks({user}) {
 
   const switchIsOpenTasks = isOpen => {
     setIsOpenTasks(isOpen);
+  };
+
+  const handleSelectTask = task => {
+    navigate("/tasks/" + task.id);
   };
 
   useEffect(() => {
@@ -54,8 +60,10 @@ function Tasks({user}) {
         tasks={isOpenTasks ? openTasks : closedTasks}
         countOpen={openTasks.length}
         countClosed={closedTasks.length}
+        onSelectTask={handleSelectTask}
         handleIsOpenTasks={switchIsOpenTasks}
       />
+      <Outlet />
     </>
   );
 }
