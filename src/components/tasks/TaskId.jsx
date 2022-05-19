@@ -1,16 +1,13 @@
-import {RecordCircle, Check2} from "react-bootstrap-icons";
+import {RecordCircle} from "react-bootstrap-icons";
 import * as React from "react";
 import {useState, useEffect} from "react";
 import {Link, useParams} from "react-router-dom";
 import {getTaskById, putTaskById} from "../../services/task-service";
 
 import Card from "react-bootstrap/Card";
-import CardGroup from "react-bootstrap/CardGroup";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
-import NavItem from "react-bootstrap/NavItem";
-import NavLink from "react-bootstrap/NavLink";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Badge from "react-bootstrap/Badge";
@@ -63,7 +60,6 @@ function TaskDay({
   editmode,
   defaultValueTaskDay,
   handleOnChangeTaskDay,
-  defaultValueTaskReminder,
   toggleReminder,
   handleOnChangeToggleReminder
 }) {
@@ -96,12 +92,14 @@ function TaskDay({
             name="blabla"
             id="disabled-day-picker"
             label="day"
+            defaultValue={defaultValueTaskDay}
           />
           <Form.Check
             className="mt-2"
             disabled
             type="switch"
             label="remind me"
+            checked={toggleReminder}
             id="disabled-reminder-switch"
           />
         </>
@@ -301,7 +299,6 @@ function TaskBody({
                 editmode={editmode}
                 defaultValueTaskDay={defaultValueTaskDay}
                 handleOnChangeTaskDay={handleOnChangeTaskDay}
-                defaultValueTaskReminder={defaultValueTaskReminder}
                 toggleReminder={toggleReminder}
                 handleOnChangeToggleReminder={handleOnChangeToggleReminder}
               />
@@ -337,28 +334,27 @@ function TaskId({user}) {
   const [editmode, setEditmode] = useState(false);
   const [toggleReminder, setToggleReminder] = useState(false);
   const [formData, setFormData] = useState({
-    taskText: "",
-    taskDescription: "",
-    taskDay: "01.01.2022"
+    text: "",
+    description: "",
+    day: "01.01.2022"
   });
 
   const onChangeTaskText = e => {
     const value = e.target.value;
-    setFormData({...formData, taskText: value});
+    setFormData({...formData, text: value});
   };
 
   const onChangeTaskDescription = e => {
     const value = e.target.value;
-    setFormData({...formData, taskDescription: value});
+    setFormData({...formData, description: value});
   };
 
   const onChangeTaskDay = e => {
     const value = e.target.value;
-    setFormData({...formData, taskDay: value});
+    setFormData({...formData, day: value});
   };
 
   const onChangeToggleReminder = e => {
-    const value = e.target.value;
     console.log("onChangeToggleReminder", toggleReminder);
     setToggleReminder(!toggleReminder);
   };
@@ -389,9 +385,9 @@ function TaskId({user}) {
     setTask(response.data);
     setFormData({
       ...formData,
-      taskText: response.data.text,
-      taskDescription: response.data.description,
-      taskDay: response.data.day
+      text: response.data.text,
+      description: response.data.description,
+      day: response.data.day
     });
     setToggleReminder(response.data.reminder);
   };
@@ -408,9 +404,9 @@ function TaskId({user}) {
     setTask(response.data);
     setFormData({
       ...formData,
-      taskText: response.data.text,
-      taskDescription: response.data.description,
-      taskDay: response.data.day
+      text: response.data.text,
+      description: response.data.description,
+      day: response.data.day
     });
     setToggleReminder(response.data.reminder);
   };
@@ -427,7 +423,7 @@ function TaskId({user}) {
               handleEditmode={handleEditmode}
               handleCancel={handleOnCancel}
               handleSave={handleOnSave}
-              defaultValueTaskText={formData.taskText}
+              defaultValueTaskText={formData.text}
               handleOnChangeTaskText={onChangeTaskText}
             />
           ) : (
@@ -439,11 +435,10 @@ function TaskId({user}) {
             <TaskBody
               task={task}
               editmode={editmode}
-              defaultValueTaskDescription={formData.taskDescription}
+              defaultValueTaskDescription={formData.description}
               handleOnChangeTaskDescription={onChangeTaskDescription}
-              defaultValueTaskDay={formData.taskDay}
+              defaultValueTaskDay={formData.day}
               handleOnChangeTaskDay={onChangeTaskDay}
-              defaultValueTaskReminder={formData.taskReminder}
               toggleReminder={toggleReminder}
               handleOnChangeToggleReminder={onChangeToggleReminder}
             />
