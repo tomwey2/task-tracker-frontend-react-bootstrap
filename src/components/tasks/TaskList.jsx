@@ -74,13 +74,10 @@ function CardHeader({countOpen, countClosed, handleIsOpenTasks}) {
 
 function TaskRow({task, onSelectTask}) {
   return (
-    //<tr onClick={() => onSelectTask(task)}>
-    <tr>
+    <tr key={task.id} onClick={() => onSelectTask(task.id)}>
+      {/* a click on the tr navigates to /users/:id */}
       <td>
-        {/* This links to /users/:id - the child route */}
-        <Link to={task.id} key={task.id}>
-          <b>{task.text}</b>
-        </Link>
+        <b>{task.text}</b>
         <small>
           <p>
             #{task.id} reported by {task.reportedBy.name}

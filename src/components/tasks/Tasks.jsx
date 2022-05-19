@@ -24,8 +24,8 @@ function Tasks({user}) {
     setIsOpenTasks(isOpen);
   };
 
-  const handleSelectTask = task => {
-    navigate("/tasks/" + task.id);
+  const handleSelectTask = taskId => {
+    navigate("/tasks/" + taskId);
   };
 
   useEffect(() => {
