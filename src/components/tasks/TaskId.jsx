@@ -58,6 +58,58 @@ function TaskDescription({task, editmode, defaultValue, handleOnChange}) {
   );
 }
 
+function TaskDay({
+  task,
+  editmode,
+  defaultValueTaskDay,
+  handleOnChangeTaskDay,
+  defaultValueTaskReminder,
+  toggleReminder,
+  handleOnChangeToggleReminder
+}) {
+  return (
+    <>
+      <h6>Do task until</h6>
+      {editmode ? (
+        <>
+          <Form.Control
+            type="date"
+            id="day-picker"
+            label="day"
+            defaultValue={defaultValueTaskDay}
+            onChange={handleOnChangeTaskDay}
+          />
+          <Form.Check
+            className="mt-2"
+            type="switch"
+            id="reminder-switch"
+            label="remind me"
+            checked={toggleReminder}
+            onChange={handleOnChangeToggleReminder}
+          />
+        </>
+      ) : (
+        <>
+          <Form.Control
+            disabled
+            type="date"
+            name="blabla"
+            id="disabled-day-picker"
+            label="day"
+          />
+          <Form.Check
+            className="mt-2"
+            disabled
+            type="switch"
+            label="remind me"
+            id="disabled-reminder-switch"
+          />
+        </>
+      )}
+    </>
+  );
+}
+
 function TaskAssignees({task}) {
   return (
     <>
@@ -219,7 +271,12 @@ function TaskBody({
   task,
   editmode,
   defaultValueTaskDescription,
-  handleOnChangeTaskDescription
+  handleOnChangeTaskDescription,
+  defaultValueTaskDay,
+  handleOnChangeTaskDay,
+  defaultValueTaskReminder,
+  toggleReminder,
+  handleOnChangeToggleReminder
 }) {
   return (
     <Container className="fluid">
@@ -237,6 +294,20 @@ function TaskBody({
           </Card>
         </Col>
         <Col md={3}>
+          <Card border="light">
+            <Card.Body>
+              <TaskDay
+                task={task}
+                editmode={editmode}
+                defaultValueTaskDay={defaultValueTaskDay}
+                handleOnChangeTaskDay={handleOnChangeTaskDay}
+                defaultValueTaskReminder={defaultValueTaskReminder}
+                toggleReminder={toggleReminder}
+                handleOnChangeToggleReminder={handleOnChangeToggleReminder}
+              />
+            </Card.Body>
+          </Card>
+
           <Card border="light">
             <Card.Body>
               <TaskAssignees task={task} />
@@ -264,9 +335,11 @@ function TaskId({user}) {
   const params = useParams();
   const [task, setTask] = useState(null);
   const [editmode, setEditmode] = useState(false);
+  const [toggleReminder, setToggleReminder] = useState(false);
   const [formData, setFormData] = useState({
     taskText: "",
-    taskDescription: ""
+    taskDescription: "",
+    taskDay: "01.01.2022"
   });
 
   const onChangeTaskText = e => {
@@ -277,6 +350,17 @@ function TaskId({user}) {
   const onChangeTaskDescription = e => {
     const value = e.target.value;
     setFormData({...formData, taskDescription: value});
+  };
+
+  const onChangeTaskDay = e => {
+    const value = e.target.value;
+    setFormData({...formData, taskDay: value});
+  };
+
+  const onChangeToggleReminder = e => {
+    const value = e.target.value;
+    console.log("onChangeToggleReminder", toggleReminder);
+    setToggleReminder(!toggleReminder);
   };
 
   useEffect(() => {
@@ -306,20 +390,29 @@ function TaskId({user}) {
     setFormData({
       ...formData,
       taskText: response.data.text,
-      taskDescription: response.data.description
+      taskDescription: response.data.description,
+      taskDay: response.data.day
     });
+    setToggleReminder(response.data.reminder);
   };
 
   const updateTaskById = async () => {
-    console.log("update Task with id", params.id, formData);
-    const response = await putTaskById(user.accessToken, params.id, formData);
+    console.log("update Task with id", params.id, formData, toggleReminder);
+    const response = await putTaskById(
+      user.accessToken,
+      params.id,
+      formData,
+      toggleReminder
+    );
     console.log(response.data);
     setTask(response.data);
     setFormData({
       ...formData,
       taskText: response.data.text,
-      taskDescription: response.data.description
+      taskDescription: response.data.description,
+      taskDay: response.data.day
     });
+    setToggleReminder(response.data.reminder);
   };
 
   // Get the userId param from the URL.
@@ -348,6 +441,11 @@ function TaskId({user}) {
               editmode={editmode}
               defaultValueTaskDescription={formData.taskDescription}
               handleOnChangeTaskDescription={onChangeTaskDescription}
+              defaultValueTaskDay={formData.taskDay}
+              handleOnChangeTaskDay={onChangeTaskDay}
+              defaultValueTaskReminder={formData.taskReminder}
+              toggleReminder={toggleReminder}
+              handleOnChangeToggleReminder={onChangeToggleReminder}
             />
           ) : (
             <></>

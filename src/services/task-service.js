@@ -41,7 +41,7 @@ function getTaskById(accessToken, id) {
   return response;
 }
 
-function putTaskById(accessToken, id, formData) {
+function putTaskById(accessToken, id, formData, toggleReminder) {
   const response = http({
     method: "put",
     url: "/api/tasks/" + id,
@@ -52,8 +52,8 @@ function putTaskById(accessToken, id, formData) {
     data: JSON.stringify({
       text: formData.taskText,
       description: formData.taskDescription,
-      day: "2022-05-19",
-      reminder: true
+      day: formData.taskDay,
+      reminder: toggleReminder
     })
   });
 
