@@ -1,7 +1,7 @@
 import Nav from "react-bootstrap/Nav";
 import TaskAssigneesSelection from "./TaskAssigneesSelection";
 
-function TaskAssignees({loggedInUser, task, handleOnChangeTaskAssignees}) {
+function TaskAssignees({loggedInUser, task, handleOnChangeTask}) {
   return (
     <>
       <Nav>
@@ -12,7 +12,7 @@ function TaskAssignees({loggedInUser, task, handleOnChangeTaskAssignees}) {
           <TaskAssigneesSelection
             loggedInUser={loggedInUser}
             task={task}
-            handleOnChangeTaskAssignees={handleOnChangeTaskAssignees}
+            handleOnChangeTask={handleOnChangeTask}
           />
         </Nav.Item>
       </Nav>

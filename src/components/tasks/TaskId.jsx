@@ -1,4 +1,4 @@
-import {RecordCircle, Gear} from "react-bootstrap-icons";
+import {RecordCircle} from "react-bootstrap-icons";
 import * as React from "react";
 import {useState, useEffect} from "react";
 import {Link, useParams} from "react-router-dom";
@@ -10,10 +10,10 @@ import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Badge from "react-bootstrap/Badge";
 import Form from "react-bootstrap/Form";
 
 import TaskAssignees from "./TaskAssignees";
+import TaskLabels from "./TaskLabels";
 
 function TaskText({task, editmode, defaultValue, handleOnChange}) {
   return (
@@ -104,81 +104,6 @@ function TaskDay({
             checked={toggleReminder}
             id="disabled-reminder-switch"
           />
-        </>
-      )}
-    </>
-  );
-}
-
-function TaskLabels({task, handleOnChangeTaskLabels}) {
-  return (
-    <>
-      <Nav>
-        <Nav.Item>
-          <b>Labels</b>
-        </Nav.Item>
-        <Nav.Item className="ms-auto">
-          <Button variant="light" size="sm" onClick={handleOnChangeTaskLabels}>
-            <Gear />
-          </Button>
-        </Nav.Item>
-      </Nav>
-      {task.labels.length > 0 ? (
-        task.labels.map(label => {
-          switch (label) {
-            case "bug":
-              return (
-                <Badge bg="danger" className="ms-2">
-                  {label}
-                </Badge>
-              );
-            case "documentation":
-              return (
-                <Badge bg="primary" className="ms-2">
-                  {label}
-                </Badge>
-              );
-            case "duplicate":
-              return (
-                <Badge bg="secondary" className="ms-2">
-                  {label}
-                </Badge>
-              );
-            case "enhancement":
-              return (
-                <Badge bg="info" className="ms-2">
-                  {label}
-                </Badge>
-              );
-            case "help wanted":
-              return (
-                <Badge bg="success" className="ms-2">
-                  {label}
-                </Badge>
-              );
-            case "invalid":
-              return (
-                <Badge bg="warning" className="ms-2">
-                  {label}
-                </Badge>
-              );
-            case "question":
-              return (
-                <Badge bg="secondary" className="ms-2">
-                  {label}
-                </Badge>
-              );
-            default:
-              return (
-                <Badge bg="light" className="ms-2">
-                  {label}
-                </Badge>
-              );
-          }
-        })
-      ) : (
-        <>
-          <span>not yet</span>
         </>
       )}
     </>
@@ -278,7 +203,7 @@ function TaskBody({
   defaultValueTaskReminder,
   toggleReminder,
   handleOnChangeToggleReminder,
-  handleOnChangeTaskAssignees
+  handleOnChangeTask
 }) {
   return (
     <Container className="fluid">
@@ -314,14 +239,18 @@ function TaskBody({
               <TaskAssignees
                 loggedInUser={loggedInUser}
                 task={task}
-                handleOnChangeTaskAssignees={handleOnChangeTaskAssignees}
+                handleOnChangeTask={handleOnChangeTask}
               />
             </Card.Body>
           </Card>
 
           <Card className="mt-2" border="light">
             <Card.Body>
-              <TaskLabels task={task} />
+              <TaskLabels
+                loggedInUser={loggedInUser}
+                task={task}
+                handleOnChangeTask={handleOnChangeTask}
+              />
             </Card.Body>
           </Card>
 
@@ -366,7 +295,6 @@ function TaskId({loggedInUser}) {
   };
 
   const onChangeToggleReminder = e => {
-    console.log("onChangeToggleReminder", toggleReminder);
     setToggleReminder(!toggleReminder);
   };
 
@@ -389,14 +317,12 @@ function TaskId({loggedInUser}) {
     handleEditmode();
   };
 
-  const onChangeTaskAssignees = task => {
+  const onChangeTask = task => {
     setTask(task);
   };
 
   const fetchTaskById = async () => {
-    console.log("fetch Task with id", params.id);
     const response = await getTaskById(loggedInUser.accessToken, params.id);
-    console.log(response.data);
     setTask(response.data);
     setFormData({
       ...formData,
@@ -408,14 +334,12 @@ function TaskId({loggedInUser}) {
   };
 
   const updateTaskById = async () => {
-    console.log("update Task with id", params.id, formData, toggleReminder);
     const response = await putTaskById(
       loggedInUser.accessToken,
       params.id,
       formData,
       toggleReminder
     );
-    console.log(response.data);
     setTask(response.data);
     setFormData({
       ...formData,
@@ -457,7 +381,7 @@ function TaskId({loggedInUser}) {
               handleOnChangeTaskDay={onChangeTaskDay}
               toggleReminder={toggleReminder}
               handleOnChangeToggleReminder={onChangeToggleReminder}
-              handleOnChangeTaskAssignees={onChangeTaskAssignees}
+              handleOnChangeTask={onChangeTask}
             />
           ) : (
             <></>

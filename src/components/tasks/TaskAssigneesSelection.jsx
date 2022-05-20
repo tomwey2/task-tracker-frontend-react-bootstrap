@@ -11,12 +11,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 /*
  * Popover component in order to manage the list of assignees.
  */
-function TaskAssigneesSelection({
-  loggedInUser,
-  task,
-  handleOnChangeTaskAssignees
-}) {
-  console.log("TaskAssigneesSelection");
+function TaskAssigneesSelection({loggedInUser, task, handleOnChangeTask}) {
   const [users, setUsers] = useState([]);
   const [assignees, setAssignees] = useState(task.assignees);
 
@@ -49,7 +44,7 @@ function TaskAssigneesSelection({
       task.id,
       assignees
     );
-    handleOnChangeTaskAssignees(response.data);
+    handleOnChangeTask(response.data);
   };
 
   function clearAllAssignees() {
