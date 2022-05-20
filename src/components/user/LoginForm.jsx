@@ -10,7 +10,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-import {login} from "../../services/user-service";
+import {login} from "../../services/auth-service";
 
 /*
  * Component for the user login formular.
