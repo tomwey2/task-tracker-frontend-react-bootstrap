@@ -8,7 +8,7 @@ import Container from "react-bootstrap/Container";
 /*
  * The header component with brand (left) and user info/commands (right).
  */
-function Header({title, user, onLogoutUser}) {
+function Header({title, loggedInUser, onLogoutUser}) {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container className="ps-4">
@@ -16,7 +16,7 @@ function Header({title, user, onLogoutUser}) {
           <Flower2 className="me-2" />
           {title}
         </Navbar.Brand>
-        {!user ? (
+        {!loggedInUser ? (
           <>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
@@ -37,7 +37,7 @@ function Header({title, user, onLogoutUser}) {
                 Logout
               </Nav.Link>
             </Nav>
-            <Navbar.Text>User: {user.username}</Navbar.Text>
+            <Navbar.Text>User: {loggedInUser.username}</Navbar.Text>
           </>
         )}
       </Container>

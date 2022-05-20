@@ -7,7 +7,7 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 /*
  * The home page of the task tracker application.
  */
-function Home({user}) {
+function Home({loggedInUser}) {
   return (
     <Container className="p-4 text-center">
       <h1 className="mt-4">Welcome to the online task tracker</h1>

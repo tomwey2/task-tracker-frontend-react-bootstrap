@@ -72,7 +72,7 @@ function CardHeader({countOpen, countClosed, handleIsOpenTasks}) {
   );
 }
 
-function TaskRow({task, onSelectTask}) {
+function TaskRow({loggedInUser, task, onSelectTask}) {
   return (
     <tr key={task.id} onClick={() => onSelectTask(task.id)}>
       {/* a click on the tr navigates to /users/:id */}
@@ -90,13 +90,18 @@ function TaskRow({task, onSelectTask}) {
   );
 }
 
-function CardBody({tasks, onSelectTask}) {
+function CardBody({loggedInUser, tasks, onSelectTask}) {
   return (
     <Table className="table-hover fs-6" size="sm">
       <tbody>
         {tasks.map(task => {
           return (
-            <TaskRow key={task.id} task={task} onSelectTask={onSelectTask} />
+            <TaskRow
+              key={task.id}
+              loggedInUser={loggedInUser}
+              task={task}
+              onSelectTask={onSelectTask}
+            />
           );
         })}
       </tbody>
@@ -105,6 +110,7 @@ function CardBody({tasks, onSelectTask}) {
 }
 
 function TaskList({
+  loggedInUser,
   tasks,
   countOpen,
   countClosed,
@@ -122,7 +128,11 @@ function TaskList({
           />
         </Card.Header>
         <Card.Body>
-          <CardBody tasks={tasks} onSelectTask={onSelectTask} />
+          <CardBody
+            loggedInUser={loggedInUser}
+            tasks={tasks}
+            onSelectTask={onSelectTask}
+          />
         </Card.Body>
       </Card>
     </Container>

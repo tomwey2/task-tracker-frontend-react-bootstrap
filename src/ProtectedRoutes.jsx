@@ -7,18 +7,18 @@ import {Navigate, Outlet} from "react-router-dom";
  * If a user is not authorized for a specific page, they cannot access it.
  * Here the user is navigate to the login page.
  */
-function isAuthenticated(user) {
-  return user;
+function isAuthenticated(loggedInUser) {
+  return loggedInUser;
 }
 
-function isAuthorized(user, role) {
-  return user && user.roles.includes(role);
+function isAuthorized(loggedInUser, role) {
+  return loggedInUser && loggedInUser.roles.includes(role);
 }
 
-function ProtectedRoutes({user, redirectPath = "/login"}) {
+function ProtectedRoutes({loggedInUser, redirectPath = "/login"}) {
   const location = useLocation();
 
-  if (!isAuthenticated(user)) {
+  if (!isAuthenticated(loggedInUser)) {
     return <Navigate to={redirectPath} replace state={{from: location}} />;
   }
 

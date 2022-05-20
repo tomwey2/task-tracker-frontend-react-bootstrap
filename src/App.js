@@ -13,13 +13,10 @@ import RegisterForm from "./components/user/RegisterForm";
 import LoginForm from "./components/user/LoginForm";
 
 function App() {
-  console.log("App");
-
-  const [user, setUser] = useState(null);
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
   const handleLogin = (username, accessToken, refreshToken) => {
-    console.log("handleLogin");
-    setUser({
+    setLoggedInUser({
       username: username,
       accessToken: accessToken,
       refreshToken: refreshToken,
@@ -28,20 +25,25 @@ function App() {
   };
 
   const handleLogout = username => {
-    console.log("handleLogout");
-    setUser(null);
+    setLoggedInUser(null);
   };
 
   const Error404 = () => <h1>404 - Seite nicht gefunden</h1>;
 
   return (
     <Router>
-      <Header user={user} onLogoutUser={handleLogout} />
+      <Header loggedInUser={loggedInUser} onLogoutUser={handleLogout} />
       <Routes>
-        <Route exact path="/" element={<Home user={user} />} />
-        <Route element={<ProtectedRoutes user={user} />}>
-          <Route path="/tasks" element={<Tasks user={user} />}></Route>
-          <Route path="/tasks/:id" element={<TaskId user={user} />} />
+        <Route exact path="/" element={<Home loggedInUser={loggedInUser} />} />
+        <Route element={<ProtectedRoutes loggedInUser={loggedInUser} />}>
+          <Route
+            path="/tasks"
+            element={<Tasks loggedInUser={loggedInUser} />}
+          ></Route>
+          <Route
+            path="/tasks/:id"
+            element={<TaskId loggedInUser={loggedInUser} />}
+          />
         </Route>
         <Route
           path="/login"

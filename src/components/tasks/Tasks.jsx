@@ -1,5 +1,4 @@
 import {useState, useEffect} from "react";
-import {Routes, Route, Outlet} from "react-router-dom";
 import {useNavigate} from "react-router";
 import {getTasksReportedByUser} from "../../services/task-service";
 
@@ -12,8 +11,7 @@ import TaskList from "./TaskList";
  * This component contains sub components to set a tasks filter
  * and to list all tasks (as table).
  */
-function Tasks({user}) {
-  console.log("Tasks");
+function Tasks({loggedInUser}) {
   const navigate = useNavigate();
   const [openTasks, setOpenTasks] = useState([]);
   const [closedTasks, setClosedTasks] = useState([]);
@@ -47,7 +45,7 @@ function Tasks({user}) {
 
   const fetchTasks = async () => {
     console.log("fetch Tasks");
-    const response = await getTasksReportedByUser(user.accessToken);
+    const response = await getTasksReportedByUser(loggedInUser.accessToken);
     setOpenTasks(response.data.filter(task => task.state === "Open"));
     setClosedTasks(response.data.filter(task => task.state === "Closed"));
     console.log(response.data);
@@ -57,13 +55,13 @@ function Tasks({user}) {
     <>
       <TaskFilter requestQuery={requestQuery} />
       <TaskList
+        loggedInUser={loggedInUser}
         tasks={isOpenTasks ? openTasks : closedTasks}
         countOpen={openTasks.length}
         countClosed={closedTasks.length}
         onSelectTask={handleSelectTask}
         handleIsOpenTasks={switchIsOpenTasks}
       />
-      <Outlet />
     </>
   );
 }
