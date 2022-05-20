@@ -61,7 +61,6 @@ function putTaskById(accessToken, id, formData, toggleReminder) {
 }
 
 function putChangeAssignees(accessToken, id, assignees) {
-  console.log("putChangeAssignees", assignees);
   const response = http({
     method: "put",
     url: "/api/tasks/" + id + "/assignees",
@@ -72,9 +71,27 @@ function putChangeAssignees(accessToken, id, assignees) {
     data: JSON.stringify(assignees)
   });
 
-  console.log("putChangeAssignees response", response);
+  return response;
+}
+
+function putChangeLabels(accessToken, id, labels) {
+  const response = http({
+    method: "put",
+    url: "/api/tasks/" + id + "/labels",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + accessToken
+    },
+    data: JSON.stringify(labels)
+  });
 
   return response;
 }
 
-export {getTasksReportedByUser, getTaskById, putTaskById, putChangeAssignees};
+export {
+  getTasksReportedByUser,
+  getTaskById,
+  putTaskById,
+  putChangeAssignees,
+  putChangeLabels
+};
