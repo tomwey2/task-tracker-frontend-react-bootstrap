@@ -11,6 +11,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import RegisterForm from "./components/user/RegisterForm";
 import LoginForm from "./components/user/LoginForm";
+import NotFound from "./NotFound";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -27,8 +28,6 @@ function App() {
   const handleLogout = username => {
     setLoggedInUser(null);
   };
-
-  const Error404 = () => <h1>404 - Seite nicht gefunden</h1>;
 
   return (
     <Router>
@@ -50,7 +49,7 @@ function App() {
           element={<LoginForm onChangeUser={handleLogin} />}
         />
         <Route path="/register" element={<RegisterForm />} />
-        <Route path="*" component={Error404} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </Router>
