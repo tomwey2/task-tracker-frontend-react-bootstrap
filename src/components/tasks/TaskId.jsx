@@ -1,4 +1,4 @@
-import {RecordCircle} from "react-bootstrap-icons";
+import {RecordCircle, Gear} from "react-bootstrap-icons";
 import * as React from "react";
 import {useState, useEffect} from "react";
 import {Link, useParams} from "react-router-dom";
@@ -12,6 +12,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Badge from "react-bootstrap/Badge";
 import Form from "react-bootstrap/Form";
+
+import TaskAssigneesSelection from "./TaskAssigneesSelection";
 
 function TaskText({task, editmode, defaultValue, handleOnChange}) {
   return (
@@ -108,19 +110,39 @@ function TaskDay({
   );
 }
 
-function TaskAssignees({task}) {
+function TaskAssignees({loggedInUser, task, handleOnChangeTaskAssignees}) {
   return (
     <>
-      <h6>Assignees</h6>
+      <Nav>
+        <Nav.Item>
+          <b>Assignees</b>
+        </Nav.Item>
+        <Nav.Item className="ms-auto">
+          <TaskAssigneesSelection
+            loggedInUser={loggedInUser}
+            task={task}
+            handleOnChangeTaskAssignees={handleOnChangeTaskAssignees}
+          />
+        </Nav.Item>
+      </Nav>
       {task.assignees.map(x => x.name).join(", ")}
     </>
   );
 }
 
-function TaskLabels({task}) {
+function TaskLabels({task, handleOnChangeTaskLabels}) {
   return (
     <>
-      <h6>Labels</h6>
+      <Nav>
+        <Nav.Item>
+          <b>Labels</b>
+        </Nav.Item>
+        <Nav.Item className="ms-auto">
+          <Button variant="light" size="sm" onClick={handleOnChangeTaskLabels}>
+            <Gear />
+          </Button>
+        </Nav.Item>
+      </Nav>
       {task.labels.length > 0 ? (
         task.labels.map(label => {
           switch (label) {
@@ -209,7 +231,7 @@ function TaskHeader({
 }) {
   return (
     <>
-      <Nav defaultActiveKey="/home" as="ul">
+      <Nav>
         <Nav.Item>
           <span>#{task.id} </span>
         </Nav.Item>
@@ -266,6 +288,7 @@ function TaskHeader({
 }
 
 function TaskBody({
+  loggedInUser,
   task,
   editmode,
   defaultValueTaskDescription,
@@ -274,7 +297,8 @@ function TaskBody({
   handleOnChangeTaskDay,
   defaultValueTaskReminder,
   toggleReminder,
-  handleOnChangeToggleReminder
+  handleOnChangeToggleReminder,
+  handleOnChangeTaskAssignees
 }) {
   return (
     <Container className="fluid">
@@ -307,7 +331,11 @@ function TaskBody({
 
           <Card border="light">
             <Card.Body>
-              <TaskAssignees task={task} />
+              <TaskAssignees
+                loggedInUser={loggedInUser}
+                task={task}
+                handleOnChangeTaskAssignees={handleOnChangeTaskAssignees}
+              />
             </Card.Body>
           </Card>
 
@@ -328,7 +356,10 @@ function TaskBody({
   );
 }
 
-function TaskId({user}) {
+/*
+ * Component to show and edit the actual task.
+ */
+function TaskId({loggedInUser}) {
   const params = useParams();
   const [task, setTask] = useState(null);
   const [editmode, setEditmode] = useState(false);
@@ -336,7 +367,7 @@ function TaskId({user}) {
   const [formData, setFormData] = useState({
     text: "",
     description: "",
-    day: "01.01.2022"
+    day: ""
   });
 
   const onChangeTaskText = e => {
@@ -378,9 +409,13 @@ function TaskId({user}) {
     handleEditmode();
   };
 
+  const onChangeTaskAssignees = task => {
+    setTask(task);
+  };
+
   const fetchTaskById = async () => {
     console.log("fetch Task with id", params.id);
-    const response = await getTaskById(user.accessToken, params.id);
+    const response = await getTaskById(loggedInUser.accessToken, params.id);
     console.log(response.data);
     setTask(response.data);
     setFormData({
@@ -395,7 +430,7 @@ function TaskId({user}) {
   const updateTaskById = async () => {
     console.log("update Task with id", params.id, formData, toggleReminder);
     const response = await putTaskById(
-      user.accessToken,
+      loggedInUser.accessToken,
       params.id,
       formData,
       toggleReminder
@@ -433,6 +468,7 @@ function TaskId({user}) {
         <Card.Body>
           {task != null ? (
             <TaskBody
+              loggedInUser={loggedInUser}
               task={task}
               editmode={editmode}
               defaultValueTaskDescription={formData.description}
@@ -441,6 +477,7 @@ function TaskId({user}) {
               handleOnChangeTaskDay={onChangeTaskDay}
               toggleReminder={toggleReminder}
               handleOnChangeToggleReminder={onChangeToggleReminder}
+              handleOnChangeTaskAssignees={onChangeTaskAssignees}
             />
           ) : (
             <></>

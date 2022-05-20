@@ -60,4 +60,21 @@ function putTaskById(accessToken, id, formData, toggleReminder) {
   return response;
 }
 
-export {getTasksReportedByUser, getTaskById, putTaskById};
+function putChangeAssignees(accessToken, id, assignees) {
+  console.log("putChangeAssignees", assignees);
+  const response = http({
+    method: "put",
+    url: "/api/tasks/" + id + "/assignees",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + accessToken
+    },
+    data: JSON.stringify(assignees)
+  });
+
+  console.log("putChangeAssignees response", response);
+
+  return response;
+}
+
+export {getTasksReportedByUser, getTaskById, putTaskById, putChangeAssignees};
