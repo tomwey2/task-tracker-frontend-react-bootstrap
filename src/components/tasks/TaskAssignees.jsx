@@ -1,0 +1,24 @@
+import Nav from "react-bootstrap/Nav";
+import TaskAssigneesSelection from "./TaskAssigneesSelection";
+
+function TaskAssignees({loggedInUser, task, handleOnChangeTaskAssignees}) {
+  return (
+    <>
+      <Nav>
+        <Nav.Item>
+          <b>Assignees</b>
+        </Nav.Item>
+        <Nav.Item className="ms-auto">
+          <TaskAssigneesSelection
+            loggedInUser={loggedInUser}
+            task={task}
+            handleOnChangeTaskAssignees={handleOnChangeTaskAssignees}
+          />
+        </Nav.Item>
+      </Nav>
+      {task.assignees.map(x => x.name).join(", ")}
+    </>
+  );
+}
+
+export default TaskAssignees;
