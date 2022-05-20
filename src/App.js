@@ -11,7 +11,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import RegisterForm from "./components/user/RegisterForm";
 import LoginForm from "./components/user/LoginForm";
-import NotFound from "./NotFound";
+import NotFound from "./components/NotFound";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
