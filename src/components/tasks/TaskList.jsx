@@ -1,4 +1,5 @@
 import {RecordCircle, Check2} from "react-bootstrap-icons";
+import {Link} from "react-router-dom";
 
 import Card from "react-bootstrap/Card";
 import Nav from "react-bootstrap/Nav";
@@ -48,17 +49,17 @@ function Sort(props) {
   );
 }
 
-function CardHeader({countOpen, countClosed}) {
+function CardHeader({countOpen, countClosed, handleIsOpenTasks}) {
   return (
-    <Nav variant="tabs" defaultActiveKey="#first">
+    <Nav>
       <Nav.Item>
-        <Nav.Link href="#open">
+        <Nav.Link type="button" onClick={() => handleIsOpenTasks(true)}>
           <RecordCircle />
           <span className="ms-2">{countOpen}</span> Open
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link href="#closed">
+        <Nav.Link type="button" onClick={() => handleIsOpenTasks(false)}>
           <Check2 /> <span className="ms-2">{countClosed}</span> Closed
         </Nav.Link>
       </Nav.Item>
@@ -71,30 +72,36 @@ function CardHeader({countOpen, countClosed}) {
   );
 }
 
-function TaskRow({task, onSelectTask}) {
+function TaskRow({loggedInUser, task, onSelectTask}) {
   return (
-    <tr onClick={() => onSelectTask(task)}>
+    <tr key={task.id} onClick={() => onSelectTask(task.id)}>
+      {/* a click on the tr navigates to /users/:id */}
       <td>
         <b>{task.text}</b>
         <small>
           <p>
-            #{task.id} reported by {task.reportedBy}
+            #{task.id} reported by {task.reportedBy.name}
           </p>
         </small>
       </td>
       <td></td>
-      <td align="right">{task.assignees.map(x => x).join(", ")}</td>
+      <td align="right">{task.assignees.map(x => x.name).join(", ")}</td>
     </tr>
   );
 }
 
-function CardBody({tasks, onSelectTask}) {
+function CardBody({loggedInUser, tasks, onSelectTask}) {
   return (
     <Table className="table-hover fs-6" size="sm">
       <tbody>
         {tasks.map(task => {
           return (
-            <TaskRow key={task.id} task={task} onSelectTask={onSelectTask} />
+            <TaskRow
+              key={task.id}
+              loggedInUser={loggedInUser}
+              task={task}
+              onSelectTask={onSelectTask}
+            />
           );
         })}
       </tbody>
@@ -102,42 +109,30 @@ function CardBody({tasks, onSelectTask}) {
   );
 }
 
-function TaskList({countOpen, countClosed, onSelectTask}) {
-  let tasks = [
-    {
-      id: "1",
-      text: "Food shopping",
-      description: "One time in week food must be bought.",
-      reportedBy: "John Doe",
-      project: "p1",
-      assignees: ["John Doe"]
-    },
-    {
-      id: "2",
-      text: "Doctor appointment",
-      description: "Meet the doctor to ask him about new set of medicament",
-      reportedBy: "John Doe",
-      project: "p1",
-      assignees: ["John Doe", "Jane Doe"]
-    },
-    {
-      id: "3",
-      text: "School party preparation",
-      description: "",
-      reportedBy: "John Doe",
-      project: "p1",
-      assignees: ["John Doe"]
-    }
-  ];
-
+function TaskList({
+  loggedInUser,
+  tasks,
+  countOpen,
+  countClosed,
+  onSelectTask,
+  handleIsOpenTasks
+}) {
   return (
     <Container>
       <Card>
         <Card.Header>
-          <CardHeader countOpen={countOpen} countClosed={countClosed} />
+          <CardHeader
+            countOpen={countOpen}
+            countClosed={countClosed}
+            handleIsOpenTasks={handleIsOpenTasks}
+          />
         </Card.Header>
         <Card.Body>
-          <CardBody tasks={tasks} onSelectTask={onSelectTask} />
+          <CardBody
+            loggedInUser={loggedInUser}
+            tasks={tasks}
+            onSelectTask={onSelectTask}
+          />
         </Card.Body>
       </Card>
     </Container>
