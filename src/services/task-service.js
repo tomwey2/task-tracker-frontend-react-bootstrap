@@ -88,10 +88,30 @@ function putChangeLabels(accessToken, id, labels) {
   return response;
 }
 
+function postNewTask(accessToken, formData, toggleReminder) {
+  const response = http({
+    method: "post",
+    url: "/api/tasks",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + accessToken
+    },
+    data: JSON.stringify({
+      text: formData.text,
+      description: formData.description,
+      day: formData.day,
+      reminder: toggleReminder
+    })
+  });
+
+  return response;
+}
+
 export {
   getTasksReportedByUser,
   getTaskById,
   putTaskById,
   putChangeAssignees,
-  putChangeLabels
+  putChangeLabels,
+  postNewTask
 };

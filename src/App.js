@@ -7,6 +7,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import Home from "./components/Home";
 import Tasks from "./components/tasks/Tasks";
 import TaskId from "./components/tasks/TaskId";
+import TaskNew from "./components/tasks/TaskNew";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import RegisterForm from "./components/user/RegisterForm";
@@ -42,6 +43,10 @@ function App() {
           <Route
             path="/tasks/:id"
             element={<TaskId loggedInUser={loggedInUser} />}
+          />
+          <Route
+            path="/tasks/new"
+            element={<TaskNew loggedInUser={loggedInUser} />}
           />
         </Route>
         <Route

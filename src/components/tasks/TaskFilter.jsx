@@ -1,3 +1,5 @@
+import {Link} from "react-router-dom";
+
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
@@ -51,9 +53,9 @@ function TaskFilter({requestQuery}) {
           <Button className="ms-auto" variant="outline-secondary">
             Labels
           </Button>
-          <Button className="ms-2" variant="success">
+          <Link to="/tasks/new" className="ms-2 btn btn-success" role="button">
             New Tasks
-          </Button>
+          </Link>
         </Col>
       </Row>
     </Container>
