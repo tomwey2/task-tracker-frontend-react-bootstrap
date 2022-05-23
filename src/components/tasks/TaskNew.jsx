@@ -70,6 +70,9 @@ function TaskDay({
   );
 }
 
+/*
+ * Component to edit a new task.
+ */
 function TaskNew({loggedInUser}) {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);

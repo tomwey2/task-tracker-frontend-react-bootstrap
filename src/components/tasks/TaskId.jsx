@@ -132,7 +132,9 @@ function TaskHeader({
   handleCancel,
   handleSave,
   defaultValueTaskText,
-  handleOnChangeTaskText
+  handleOnChangeTaskText,
+  handleOnReopen,
+  handleOnClosed
 }) {
   return (
     <>
@@ -156,6 +158,25 @@ function TaskHeader({
         ) : (
           <>
             <Nav.Item className="ms-auto">
+              {task.state === "Open" ? (
+                <Button
+                  variant="outline-dark"
+                  size="sm"
+                  onClick={handleOnClosed}
+                >
+                  Close
+                </Button>
+              ) : (
+                <Button
+                  variant="outline-dark"
+                  size="sm"
+                  onClick={handleOnReopen}
+                >
+                  Re-open
+                </Button>
+              )}
+            </Nav.Item>
+            <Nav.Item className="ms-2">
               <Button variant="outline-dark" size="sm" onClick={handleEditmode}>
                 Edit
               </Button>
@@ -313,8 +334,16 @@ function TaskId({loggedInUser}) {
   };
 
   const handleOnSave = () => {
-    updateTaskById();
+    updateTaskById(task.state);
     handleEditmode();
+  };
+
+  const handleOnReopen = () => {
+    updateTaskById("Open");
+  };
+
+  const handleOnClosed = () => {
+    updateTaskById("Closed");
   };
 
   const onChangeTask = task => {
@@ -333,12 +362,13 @@ function TaskId({loggedInUser}) {
     setToggleReminder(response.data.reminder);
   };
 
-  const updateTaskById = async () => {
+  const updateTaskById = async state => {
     const response = await putTaskById(
       loggedInUser.accessToken,
       params.id,
       formData,
-      toggleReminder
+      toggleReminder,
+      state
     );
     setTask(response.data);
     setFormData({
@@ -364,6 +394,8 @@ function TaskId({loggedInUser}) {
               handleSave={handleOnSave}
               defaultValueTaskText={formData.text}
               handleOnChangeTaskText={onChangeTaskText}
+              handleOnReopen={handleOnReopen}
+              handleOnClosed={handleOnClosed}
             />
           ) : (
             <></>

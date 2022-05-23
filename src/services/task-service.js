@@ -41,7 +41,7 @@ function getTaskById(accessToken, id) {
   return response;
 }
 
-function putTaskById(accessToken, id, formData, toggleReminder) {
+function putTaskById(accessToken, id, formData, toggleReminder, state) {
   const response = http({
     method: "put",
     url: "/api/tasks/" + id,
@@ -50,10 +50,11 @@ function putTaskById(accessToken, id, formData, toggleReminder) {
       Authorization: "Bearer " + accessToken
     },
     data: JSON.stringify({
-      text: formData.taskText,
-      description: formData.taskDescription,
-      day: formData.taskDay,
-      reminder: toggleReminder
+      text: formData.text,
+      description: formData.description,
+      day: formData.day,
+      reminder: toggleReminder,
+      state: state
     })
   });
 

@@ -18,7 +18,11 @@ function TaskLabels({loggedInUser, task, handleOnChangeTask}) {
         </Nav.Item>
       </Nav>
       {task.labels.length > 0 ? (
-        task.labels.map(x => <TaskLabel label={x} short={true} />)
+        task.labels.map(x => (
+          <div key="x">
+            <TaskLabel label={x} short={true} />
+          </div>
+        ))
       ) : (
         <>
           <span>not yet</span>

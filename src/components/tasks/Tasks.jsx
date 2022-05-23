@@ -40,15 +40,13 @@ function Tasks({loggedInUser}) {
   }, [isOpenTasks]);
 
   useEffect(() => {
-    navigate("/tasks?query=" + requestQuery);
+    navigate("/tasks?filter=" + requestQuery);
   }, [requestQuery]);
 
   const fetchTasks = async () => {
-    console.log("fetch Tasks");
     const response = await getTasksReportedByUser(loggedInUser.accessToken);
     setOpenTasks(response.data.filter(task => task.state === "Open"));
     setClosedTasks(response.data.filter(task => task.state === "Closed"));
-    console.log(response.data);
   };
 
   return (
