@@ -109,7 +109,7 @@ function CardBody({loggedInUser, tasks, onSelectTask}) {
   );
 }
 
-function TaskList({
+function TasksList({
   loggedInUser,
   tasks,
   countOpen,
@@ -139,4 +139,4 @@ function TaskList({
   );
 }
 
-export default TaskList;
+export default TasksList;

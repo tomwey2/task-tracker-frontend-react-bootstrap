@@ -4,7 +4,7 @@ import {getTasksReportedByUser} from "../../services/task-service";
 
 // Embedded components
 import TaskFilter from "./TaskFilter";
-import TaskList from "./TaskList";
+import TasksList from "./TasksList";
 
 /*
  * Main Component for the list of user tasks .
@@ -54,7 +54,7 @@ function Tasks({loggedInUser}) {
   return (
     <>
       <TaskFilter requestQuery={requestQuery} />
-      <TaskList
+      <TasksList
         loggedInUser={loggedInUser}
         tasks={isOpenTasks ? openTasks : closedTasks}
         countOpen={openTasks.length}
