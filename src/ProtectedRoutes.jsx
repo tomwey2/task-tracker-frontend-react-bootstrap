@@ -1,5 +1,7 @@
+import {useContext} from "react";
 import {useLocation} from "react-router";
 import {Navigate, Outlet} from "react-router-dom";
+import AuthContext from "./AuthContext";
 
 /**
  * This component handles the private Routes in React Router. They require a
@@ -15,8 +17,9 @@ function isAuthorized(loggedInUser, role) {
   return loggedInUser && loggedInUser.roles.includes(role);
 }
 
-function ProtectedRoutes({loggedInUser, redirectPath = "/login"}) {
+function ProtectedRoutes({redirectPath = "/login"}) {
   const location = useLocation();
+  const {loggedInUser} = useContext(AuthContext);
 
   if (!isAuthenticated(loggedInUser)) {
     return <Navigate to={redirectPath} replace state={{from: location}} />;

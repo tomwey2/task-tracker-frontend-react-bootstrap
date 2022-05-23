@@ -1,14 +1,22 @@
+import {useContext} from "react";
 import {Link} from "react-router-dom";
 
 import {Flower2} from "react-bootstrap-icons";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
+import AuthContext from "../AuthContext";
 
 /*
  * The header component with brand (left) and user info/commands (right).
  */
-function Header({title, loggedInUser, onLogoutUser}) {
+function Header({title}) {
+  const {loggedInUser, setLoggedInUser} = useContext(AuthContext);
+
+  const onLogoutUser = () => {
+    setLoggedInUser(null);
+  };
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container className="ps-4">

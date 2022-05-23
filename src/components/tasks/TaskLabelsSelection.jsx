@@ -5,7 +5,7 @@ import {
   DashCircle,
   PlusCircle
 } from "react-bootstrap-icons";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import {putChangeLabels} from "../../services/task-service";
 
 import Button from "react-bootstrap/Button";
@@ -15,10 +15,13 @@ import ListGroup from "react-bootstrap/ListGroup";
 
 import TaskLabel from "./TaskLabel";
 
+import AuthContext from "../../AuthContext";
+
 /*
  * Popover component in order to manage the list of labels.
  */
-function TaskLabelsSelection({loggedInUser, task, handleOnChangeTask}) {
+function TaskLabelsSelection({task, handleOnChangeTask}) {
+  const {loggedInUser} = useContext(AuthContext);
   const [show, setShow] = useState(false);
   const [target, setTarget] = useState(null);
   const [labels, setLabels] = useState(task.labels);
@@ -42,7 +45,7 @@ function TaskLabelsSelection({loggedInUser, task, handleOnChangeTask}) {
       task.id,
       labels
     );
-    handleOnChangeTask(response.data);
+    handleOnChangeTask(response.data); // refresh page with updated task
   };
 
   function clearAllLabels() {

@@ -1,7 +1,8 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import {useNavigate} from "react-router";
 import {getTasksReportedByUser} from "../../services/task-service";
 
+import AuthContext from "../../AuthContext";
 // Embedded components
 import TasksFilter from "./TasksFilter";
 import TasksList from "./TasksList";
@@ -11,8 +12,9 @@ import TasksList from "./TasksList";
  * This component contains sub components to set a tasks filter
  * and to list all tasks (as table).
  */
-function Tasks({loggedInUser}) {
+function Tasks() {
   const navigate = useNavigate();
+  const {loggedInUser} = useContext(AuthContext);
   const [openTasks, setOpenTasks] = useState([]);
   const [closedTasks, setClosedTasks] = useState([]);
   const [isOpenTasks, setIsOpenTasks] = useState(true);
@@ -53,7 +55,6 @@ function Tasks({loggedInUser}) {
     <>
       <TasksFilter requestQuery={requestQuery} />
       <TasksList
-        loggedInUser={loggedInUser}
         tasks={isOpenTasks ? openTasks : closedTasks}
         countOpen={openTasks.length}
         countClosed={closedTasks.length}

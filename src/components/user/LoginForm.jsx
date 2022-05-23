@@ -1,5 +1,5 @@
 import {useNavigate, useLocation} from "react-router";
-import {useState} from "react";
+import {useState, useContext} from "react";
 import {Link} from "react-router-dom";
 
 import {Flower2} from "react-bootstrap-icons";
@@ -10,6 +10,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
+import AuthContext from "../../AuthContext";
 import {login} from "../../services/auth-service";
 
 /*
@@ -18,7 +19,8 @@ import {login} from "../../services/auth-service";
  * target page or the home page of the task tracker.
  * If the login is unsuccessful then the error messages is shown.
  */
-function LoginForm({title, onChangeUser}) {
+function LoginForm({title}) {
+  const {loggedInUser, setLoggedInUser} = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [errorMessage, setErrorMessage] = useState(null);
@@ -45,11 +47,12 @@ function LoginForm({title, onChangeUser}) {
       .then(response => {
         console.log("Login success", response);
         setErrorMessage(null);
-        onChangeUser(
-          response.data.email,
-          response.data.accessToken,
-          response.data.refreshToken
-        );
+        setLoggedInUser({
+          username: response.data.email,
+          accessToken: response.data.accessToken,
+          refreshToken: response.data.refreshToken,
+          roles: ["user"]
+        });
         // redirect to uri
         if (location.state?.from) {
           navigate(location.state.from);

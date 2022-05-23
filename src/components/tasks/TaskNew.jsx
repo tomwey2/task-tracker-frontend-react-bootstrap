@@ -1,5 +1,5 @@
 import React from "react";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import {useNavigate} from "react-router";
 import {Link} from "react-router-dom";
 import Container from "react-bootstrap/Container";
@@ -10,6 +10,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
 
+import AuthContext from "../../AuthContext";
 import {postNewTask} from "../../services/task-service";
 
 function TaskText({handleOnChange}) {
@@ -73,8 +74,9 @@ function TaskDay({
 /*
  * Component to edit a new task.
  */
-function TaskNew({loggedInUser}) {
+function TaskNew(props) {
   const navigate = useNavigate();
+  const {loggedInUser} = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState(null);
   const [toggleReminder, setToggleReminder] = useState(false);
   const [formData, setFormData] = useState({

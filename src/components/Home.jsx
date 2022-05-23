@@ -1,13 +1,17 @@
+import {useContext} from "react";
 import {Link} from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import AuthContext from "../AuthContext";
 
 /*
  * The home page of the task tracker application.
  */
-function Home({loggedInUser}) {
+function Home({props}) {
+  const {loggedInUser} = useContext(AuthContext);
+  console.log("home loggedInUser", loggedInUser);
   return (
     <Container className="p-4 text-center">
       <h1 className="mt-4">Welcome to the online task tracker</h1>
@@ -31,7 +35,6 @@ function Home({loggedInUser}) {
           track your tasks along the task workflow
         </Button>
       </ButtonGroup>
-
       <p></p>
       <Link to="/tasks" className="btn btn-success btn-lg" role="button">
         Get Started

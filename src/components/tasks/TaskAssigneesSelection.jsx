@@ -1,5 +1,5 @@
 import {Gear, XCircle, DashCircle, PlusCircle} from "react-bootstrap-icons";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import {getAllUsers} from "../../services/user-service";
 import {putChangeAssignees} from "../../services/task-service";
 
@@ -8,10 +8,13 @@ import Popover from "react-bootstrap/Popover";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import ListGroup from "react-bootstrap/ListGroup";
 
+import AuthContext from "../../AuthContext";
+
 /*
  * Popover component in order to manage the list of assignees.
  */
-function TaskAssigneesSelection({loggedInUser, task, handleOnChangeTask}) {
+function TaskAssigneesSelection({task, handleOnChangeTask}) {
+  const {loggedInUser} = useContext(AuthContext);
   const [users, setUsers] = useState([]);
   const [assignees, setAssignees] = useState(task.assignees);
 
@@ -44,7 +47,7 @@ function TaskAssigneesSelection({loggedInUser, task, handleOnChangeTask}) {
       task.id,
       assignees
     );
-    handleOnChangeTask(response.data);
+    handleOnChangeTask(response.data); // refresh page with updated task
   };
 
   function clearAllAssignees() {

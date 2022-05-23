@@ -1,7 +1,9 @@
 import {RecordCircle} from "react-bootstrap-icons";
 import * as React from "react";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import {Link, useParams} from "react-router-dom";
+
+import AuthContext from "../../AuthContext";
 import {getTaskById, putTaskById} from "../../services/task-service";
 
 import Card from "react-bootstrap/Card";
@@ -214,7 +216,6 @@ function TaskHeader({
 }
 
 function TaskBody({
-  loggedInUser,
   task,
   editmode,
   defaultValueTaskDescription,
@@ -258,7 +259,6 @@ function TaskBody({
           <Card border="light">
             <Card.Body>
               <TaskAssignees
-                loggedInUser={loggedInUser}
                 task={task}
                 handleOnChangeTask={handleOnChangeTask}
               />
@@ -267,11 +267,7 @@ function TaskBody({
 
           <Card className="mt-2" border="light">
             <Card.Body>
-              <TaskLabels
-                loggedInUser={loggedInUser}
-                task={task}
-                handleOnChangeTask={handleOnChangeTask}
-              />
+              <TaskLabels task={task} handleOnChangeTask={handleOnChangeTask} />
             </Card.Body>
           </Card>
 
@@ -289,8 +285,9 @@ function TaskBody({
 /*
  * Component to show and edit the actual task.
  */
-function TaskId({loggedInUser}) {
+function TaskId(props) {
   const params = useParams();
+  const {loggedInUser} = useContext(AuthContext);
   const [task, setTask] = useState(null);
   const [editmode, setEditmode] = useState(false);
   const [toggleReminder, setToggleReminder] = useState(false);
@@ -404,7 +401,6 @@ function TaskId({loggedInUser}) {
         <Card.Body>
           {task != null ? (
             <TaskBody
-              loggedInUser={loggedInUser}
               task={task}
               editmode={editmode}
               defaultValueTaskDescription={formData.description}
