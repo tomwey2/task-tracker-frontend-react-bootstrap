@@ -3,7 +3,7 @@ import {useNavigate} from "react-router";
 import {getTasksReportedByUser} from "../../services/task-service";
 
 // Embedded components
-import TaskFilter from "./TaskFilter";
+import TasksFilter from "./TasksFilter";
 import TasksList from "./TasksList";
 
 /*
@@ -53,7 +53,7 @@ function Tasks({loggedInUser}) {
 
   return (
     <>
-      <TaskFilter requestQuery={requestQuery} />
+      <TasksFilter requestQuery={requestQuery} />
       <TasksList
         loggedInUser={loggedInUser}
         tasks={isOpenTasks ? openTasks : closedTasks}

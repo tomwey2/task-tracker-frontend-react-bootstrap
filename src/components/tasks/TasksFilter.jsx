@@ -39,7 +39,7 @@ function FilterDroplist(props) {
   );
 }
 
-function TaskFilter({requestQuery}) {
+function TasksFilter({requestQuery}) {
   return (
     <Container className="p-4">
       <Row>
@@ -62,4 +62,4 @@ function TaskFilter({requestQuery}) {
   );
 }
 
-export default TaskFilter;
+export default TasksFilter;
