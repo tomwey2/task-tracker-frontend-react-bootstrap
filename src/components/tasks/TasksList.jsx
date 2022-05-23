@@ -1,5 +1,4 @@
 import {RecordCircle, Check2} from "react-bootstrap-icons";
-import {Link} from "react-router-dom";
 
 import Card from "react-bootstrap/Card";
 import Nav from "react-bootstrap/Nav";
