@@ -24,25 +24,11 @@ function LoginForm({title}) {
   const navigate = useNavigate();
   const location = useLocation();
   const [errorMessage, setErrorMessage] = useState(null);
-  const [formData, setFormData] = useState({
-    username: "",
-    password: ""
-  });
 
-  const onChangeUsername = e => {
-    const username = e.target.value;
-    setFormData({...formData, username: username});
-  };
-
-  const onChangePassword = e => {
-    const password = e.target.value;
-    setFormData({...formData, password: password});
-  };
-
-  const onSubmit = async e => {
+  const onSubmit = e => {
     e.preventDefault();
 
-    await login(formData.username, formData.password)
+    login(e.target.username.value, e.target.password.value)
       // Authentication of user was successful
       .then(response => {
         console.log("Login success", response);
@@ -88,7 +74,7 @@ function LoginForm({title}) {
               <Form onSubmit={onSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" onChange={onChangeUsername} />
+                  <Form.Control name="username" type="email" />
                   <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
                   </Form.Text>
@@ -96,7 +82,7 @@ function LoginForm({title}) {
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" onChange={onChangePassword} />
+                  <Form.Control name="password" type="password" />
                 </Form.Group>
                 <div className="d-grid">
                   <Button variant="primary" type="submit">

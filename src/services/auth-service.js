@@ -1,13 +1,13 @@
 import qs from "qs";
 import http from "../http-common";
 
-function login(username, password) {
+async function login(username, password) {
   /*
    * Because the backende is only accepting login data using
    * the urlencode format, the data must be stringlify with
    * the qs lib.
    */
-  const response = http({
+  const response = await http({
     method: "post",
     url: "/login",
     data: qs.stringify({
