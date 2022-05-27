@@ -1,4 +1,3 @@
-import {useNavigate, useLocation} from "react-router";
 import {useState, useContext} from "react";
 import {Link} from "react-router-dom";
 
@@ -11,7 +10,6 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
 import AuthContext from "../../AuthContext";
-import {login} from "../../services/auth-service";
 
 /*
  * Component for the user login formular.
@@ -20,37 +18,22 @@ import {login} from "../../services/auth-service";
  * If the login is unsuccessful then the error messages is shown.
  */
 function LoginForm({title}) {
-  const {loggedInUser, setLoggedInUser} = useContext(AuthContext);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const {loginUser} = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  // onSubmit function to show the error message if login is unsuccessful
   const onSubmit = async e => {
     e.preventDefault();
 
     try {
-      const response = await login(
-        e.target.username.value,
-        e.target.password.value
-      );
+      e.preventDefault();
+
+      await loginUser(e.target.username.value, e.target.password.value);
       // Authentication of user was successful
-      console.log("Login success", response);
       setErrorMessage(null);
-      setLoggedInUser(response.data);
-      localStorage.setItem("user", JSON.stringify(response.data));
-      // redirect to uri
-      if (location.state?.from) {
-        navigate(location.state.from);
-      } else {
-        navigate("/");
-      }
-    } catch (e) {
+    } catch (error) {
       // Authentication was unsuccessful
-      console.log("Login failed", e);
-      const message = e.response.data
-        ? e.response.data.message
-        : "Connection to server failed.";
-      setErrorMessage(message);
+      setErrorMessage(error.message);
     }
   };
 

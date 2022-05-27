@@ -11,7 +11,7 @@ import AuthContext from "../AuthContext";
  * The header component with brand (left) and user info/commands (right).
  */
 function Header({title}) {
-  const {loggedInUser, setLoggedInUser} = useContext(AuthContext);
+  const {loggedInUser, setLoggedInUser, logoutUser} = useContext(AuthContext);
 
   const onLogoutUser = () => {
     setLoggedInUser(null);
@@ -41,7 +41,7 @@ function Header({title}) {
         ) : (
           <>
             <Nav className="ms-auto me-4">
-              <Nav.Link as={Link} to="/" onClick={onLogoutUser}>
+              <Nav.Link as={Link} to="/" onClick={logoutUser}>
                 Logout
               </Nav.Link>
             </Nav>

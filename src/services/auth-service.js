@@ -1,30 +1,4 @@
-import qs from "qs";
 import http from "../http-common";
-
-async function login(username, password) {
-  /*
-   * Because the backende is only accepting login data using
-   * the urlencode format, the data must be stringlify with
-   * the qs lib.
-   */
-  const response = await http({
-    method: "post",
-    url: "/login",
-    data: qs.stringify({
-      email: username,
-      password: password
-    }),
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
-    }
-  });
-
-  console.log("login response", response);
-
-  if (response.status === 200) {
-    return response;
-  }
-}
 
 function register(username, email, password) {
   console.log("register: ", username, email, password);
@@ -44,4 +18,4 @@ function register(username, email, password) {
   return response;
 }
 
-export {login, register};
+export {register};
