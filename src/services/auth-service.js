@@ -19,7 +19,11 @@ async function login(username, password) {
     }
   });
 
-  return response;
+  console.log("login response", response);
+
+  if (response.status === 200) {
+    return response;
+  }
 }
 
 function register(username, email, password) {

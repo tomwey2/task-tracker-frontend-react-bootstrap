@@ -16,7 +16,11 @@ import NotFound from "./components/NotFound";
 import AuthContext from "./AuthContext";
 
 function App() {
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [loggedInUser, setLoggedInUser] = useState(
+    localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user"))
+      : null
+  );
 
   const handleLogout = username => {
     setLoggedInUser(null);

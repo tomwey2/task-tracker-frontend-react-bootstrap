@@ -25,35 +25,33 @@ function LoginForm({title}) {
   const location = useLocation();
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
 
-    login(e.target.username.value, e.target.password.value)
+    try {
+      const response = await login(
+        e.target.username.value,
+        e.target.password.value
+      );
       // Authentication of user was successful
-      .then(response => {
-        console.log("Login success", response);
-        setErrorMessage(null);
-        setLoggedInUser({
-          username: response.data.email,
-          accessToken: response.data.accessToken,
-          refreshToken: response.data.refreshToken,
-          roles: ["user"]
-        });
-        // redirect to uri
-        if (location.state?.from) {
-          navigate(location.state.from);
-        } else {
-          navigate("/");
-        }
-      })
+      console.log("Login success", response);
+      setErrorMessage(null);
+      setLoggedInUser(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
+      // redirect to uri
+      if (location.state?.from) {
+        navigate(location.state.from);
+      } else {
+        navigate("/");
+      }
+    } catch (e) {
       // Authentication was unsuccessful
-      .catch(error => {
-        console.log("Login failed", error.response);
-        const message = error.response.data
-          ? error.response.data.message
-          : "Connection to server failed.";
-        setErrorMessage(message);
-      });
+      console.log("Login failed", e);
+      const message = e.response.data
+        ? e.response.data.message
+        : "Connection to server failed.";
+      setErrorMessage(message);
+    }
   };
 
   return (
