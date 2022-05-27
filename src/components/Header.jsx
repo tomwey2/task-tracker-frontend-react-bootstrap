@@ -11,11 +11,7 @@ import AuthContext from "../AuthContext";
  * The header component with brand (left) and user info/commands (right).
  */
 function Header({title}) {
-  const {loggedInUser, setLoggedInUser, logoutUser} = useContext(AuthContext);
-
-  const onLogoutUser = () => {
-    setLoggedInUser(null);
-  };
+  const {loggedInUser, logoutUser} = useContext(AuthContext);
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
@@ -45,7 +41,7 @@ function Header({title}) {
                 Logout
               </Nav.Link>
             </Nav>
-            <Navbar.Text>User: {loggedInUser.username}</Navbar.Text>
+            <Navbar.Text>User: {loggedInUser.email}</Navbar.Text>
           </>
         )}
       </Container>

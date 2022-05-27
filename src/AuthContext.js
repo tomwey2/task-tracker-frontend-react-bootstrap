@@ -17,7 +17,7 @@ export const AuthProvider = ({children}) => {
   );
 
   let loginUser = async (username, password) => {
-    const response = await http({
+    await http({
       method: "post",
       url: "/login",
       data: qs.stringify({
@@ -47,11 +47,36 @@ export const AuthProvider = ({children}) => {
     localStorage.removeItem("user");
   };
 
+  let registerUser = async (username, email, password, directLogin = false) => {
+    console.log("register: ", username, email, password, directLogin);
+    await http({
+      method: "post",
+      url: "/register",
+      data: JSON.stringify({
+        name: username,
+        email: email,
+        password: password
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(response => {
+      // Success
+      console.log("Register success", response);
+      if (directLogin) {
+        loginUser(email, password);
+      } else {
+        navigate("/");
+      }
+    });
+  };
+
   let context = {
     loggedInUser: loggedInUser,
     setLoggedInUser: setLoggedInUser,
     logoutUser: logoutUser,
-    loginUser: loginUser
+    loginUser: loginUser,
+    registerUser: registerUser
   };
 
   return (
