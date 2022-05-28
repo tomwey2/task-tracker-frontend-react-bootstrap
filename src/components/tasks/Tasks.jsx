@@ -1,6 +1,7 @@
 import {useState, useEffect, useContext} from "react";
 import {useNavigate} from "react-router";
-import {getTasksReportedByUser} from "../../services/task-service";
+import TaskService from "../../services/task-service";
+import {useDataAxios} from "./../../http-common";
 
 import AuthContext from "../../AuthContext";
 // Embedded components
@@ -14,6 +15,7 @@ import TasksList from "./TasksList";
  */
 function Tasks() {
   const navigate = useNavigate();
+  const http = useDataAxios();
   const {loggedInUser} = useContext(AuthContext);
   const [openTasks, setOpenTasks] = useState([]);
   const [closedTasks, setClosedTasks] = useState([]);
@@ -46,7 +48,10 @@ function Tasks() {
   }, [requestQuery]);
 
   const fetchTasks = async () => {
-    const response = await getTasksReportedByUser(loggedInUser.accessToken);
+    const response = await TaskService.getTasksReportedByUser(
+      http,
+      loggedInUser.accessToken
+    );
     setOpenTasks(response.data.filter(task => task.state === "Open"));
     setClosedTasks(response.data.filter(task => task.state === "Closed"));
   };

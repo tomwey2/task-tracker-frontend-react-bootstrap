@@ -26,8 +26,6 @@ function LoginForm({title}) {
     e.preventDefault();
 
     try {
-      e.preventDefault();
-
       await loginUser(e.target.username.value, e.target.password.value);
       // Authentication of user was successful
       setErrorMessage(null);

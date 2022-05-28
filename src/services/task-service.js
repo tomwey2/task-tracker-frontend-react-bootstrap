@@ -1,18 +1,51 @@
-import http from "../http-common";
+class TaskService {
+  async getTasksReportedByUser(http, accessToken) {
+    return await http.get("/api/tasks");
+  }
 
-function getTasksReportedByUser(accessToken) {
-  const response = http({
-    method: "get",
-    url: "/api/tasks",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + accessToken
-    }
-  });
+  async getTaskById(http, accessToken, id) {
+    return await http.get("/api/tasks/" + id);
+  }
 
-  return response;
+  async putTaskById(http, accessToken, id, formData, toggleReminder, state) {
+    const body = {
+      text: formData.text,
+      description: formData.description,
+      day: formData.day,
+      reminder: toggleReminder,
+      state: state
+    };
+    return await http.put("/api/tasks/" + id, JSON.stringify(body));
+  }
+
+  async putChangeAssignees(http, accessToken, id, assignees) {
+    return await http.put(
+      "/api/tasks/" + id + "/assignees",
+      JSON.stringify(assignees)
+    );
+  }
+
+  async putChangeLabels(http, accessToken, id, labels) {
+    return await http.put(
+      "/api/tasks/" + id + "/labels",
+      JSON.stringify(labels)
+    );
+  }
+
+  async postNewTask(http, text, description, day, toggleReminder) {
+    const body = {
+      text: text,
+      description: description,
+      day: day,
+      reminder: toggleReminder
+    };
+    return await http.post("/api/tasks", JSON.stringify(body));
+  }
 }
 
+export default new TaskService();
+
+/*
 function getTasksWithQuery(accessToken, query) {
   const bearerToken = "Bearer " + accessToken;
   const url = "/api/tasks?query=" + query;
@@ -27,92 +60,4 @@ function getTasksWithQuery(accessToken, query) {
 
   return response;
 }
-
-function getTaskById(accessToken, id) {
-  const response = http({
-    method: "get",
-    url: "/api/tasks/" + id,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + accessToken
-    }
-  });
-
-  return response;
-}
-
-function putTaskById(accessToken, id, formData, toggleReminder, state) {
-  const response = http({
-    method: "put",
-    url: "/api/tasks/" + id,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + accessToken
-    },
-    data: JSON.stringify({
-      text: formData.text,
-      description: formData.description,
-      day: formData.day,
-      reminder: toggleReminder,
-      state: state
-    })
-  });
-
-  return response;
-}
-
-function putChangeAssignees(accessToken, id, assignees) {
-  const response = http({
-    method: "put",
-    url: "/api/tasks/" + id + "/assignees",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + accessToken
-    },
-    data: JSON.stringify(assignees)
-  });
-
-  return response;
-}
-
-function putChangeLabels(accessToken, id, labels) {
-  const response = http({
-    method: "put",
-    url: "/api/tasks/" + id + "/labels",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + accessToken
-    },
-    data: JSON.stringify(labels)
-  });
-
-  return response;
-}
-
-function postNewTask(accessToken, formData, toggleReminder) {
-  const response = http({
-    method: "post",
-    url: "/api/tasks",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + accessToken
-    },
-    data: JSON.stringify({
-      text: formData.text,
-      description: formData.description,
-      day: formData.day,
-      reminder: toggleReminder
-    })
-  });
-
-  return response;
-}
-
-export {
-  getTasksReportedByUser,
-  getTaskById,
-  putTaskById,
-  putChangeAssignees,
-  putChangeLabels,
-  postNewTask
-};
+*/

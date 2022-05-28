@@ -4,7 +4,8 @@ import {useState, useEffect, useContext} from "react";
 import {Link, useParams} from "react-router-dom";
 
 import AuthContext from "../../AuthContext";
-import {getTaskById, putTaskById} from "../../services/task-service";
+import TaskService from "../../services/task-service";
+import {useDataAxios} from "./../../http-common";
 
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
@@ -286,6 +287,7 @@ function TaskBody({
  * Component to show and edit the actual task.
  */
 function TaskId(props) {
+  const http = useDataAxios();
   const params = useParams();
   const {loggedInUser} = useContext(AuthContext);
   const [task, setTask] = useState(null);
@@ -348,7 +350,11 @@ function TaskId(props) {
   };
 
   const fetchTaskById = async () => {
-    const response = await getTaskById(loggedInUser.accessToken, params.id);
+    const response = await TaskService.getTaskById(
+      http,
+      loggedInUser.accessToken,
+      params.id
+    );
     setTask(response.data);
     setFormData({
       ...formData,
@@ -360,7 +366,8 @@ function TaskId(props) {
   };
 
   const updateTaskById = async state => {
-    const response = await putTaskById(
+    const response = await TaskService.putTaskById(
+      http,
       loggedInUser.accessToken,
       params.id,
       formData,

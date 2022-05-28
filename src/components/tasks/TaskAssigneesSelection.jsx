@@ -1,7 +1,8 @@
 import {Gear, XCircle, DashCircle, PlusCircle} from "react-bootstrap-icons";
 import {useState, useEffect, useContext} from "react";
-import {getAllUsers} from "../../services/user-service";
-import {putChangeAssignees} from "../../services/task-service";
+import TaskService from "../../services/task-service";
+import UserService from "../../services/user-service";
+import {useDataAxios} from "./../../http-common";
 
 import Button from "react-bootstrap/Button";
 import Popover from "react-bootstrap/Popover";
@@ -14,6 +15,7 @@ import AuthContext from "../../AuthContext";
  * Popover component in order to manage the list of assignees.
  */
 function TaskAssigneesSelection({task, handleOnChangeTask}) {
+  const http = useDataAxios();
   const {loggedInUser} = useContext(AuthContext);
   const [users, setUsers] = useState([]);
   const [assignees, setAssignees] = useState(task.assignees);
@@ -37,12 +39,16 @@ function TaskAssigneesSelection({task, handleOnChangeTask}) {
   }, [assignees]);
 
   const fetchUsers = async () => {
-    const response = await getAllUsers(loggedInUser.accessToken);
+    const response = await UserService.getAllUsers(
+      http,
+      loggedInUser.accessToken
+    );
     setUsers(response.data);
   };
 
   const updateAssignees = async () => {
-    const response = await putChangeAssignees(
+    const response = await TaskService.putChangeAssignees(
+      http,
       loggedInUser.accessToken,
       task.id,
       assignees

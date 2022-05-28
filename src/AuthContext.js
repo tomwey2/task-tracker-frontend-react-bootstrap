@@ -1,7 +1,7 @@
 import {useNavigate, useLocation} from "react-router";
 import {createContext, useState} from "react";
 import qs from "qs";
-import http from "./http-common";
+import {useAuthAxios} from "./http-common";
 
 const AuthContext = createContext();
 
@@ -15,6 +15,7 @@ export const AuthProvider = ({children}) => {
       ? JSON.parse(localStorage.getItem("user"))
       : null
   );
+  const http = useAuthAxios();
 
   let loginUser = async (username, password) => {
     await http({

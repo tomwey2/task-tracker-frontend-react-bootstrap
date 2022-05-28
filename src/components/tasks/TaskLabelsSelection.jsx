@@ -6,7 +6,8 @@ import {
   PlusCircle
 } from "react-bootstrap-icons";
 import {useState, useEffect, useContext} from "react";
-import {putChangeLabels} from "../../services/task-service";
+import TaskService from "../../services/task-service";
+import {useDataAxios} from "./../../http-common";
 
 import Button from "react-bootstrap/Button";
 import Popover from "react-bootstrap/Popover";
@@ -21,6 +22,7 @@ import AuthContext from "../../AuthContext";
  * Popover component in order to manage the list of labels.
  */
 function TaskLabelsSelection({task, handleOnChangeTask}) {
+  const http = useDataAxios();
   const {loggedInUser} = useContext(AuthContext);
   const [show, setShow] = useState(false);
   const [target, setTarget] = useState(null);
@@ -40,7 +42,8 @@ function TaskLabelsSelection({task, handleOnChangeTask}) {
   }, [labels]);
 
   const updateLabels = async () => {
-    const response = await putChangeLabels(
+    const response = await TaskService.putChangeLabels(
+      http,
       loggedInUser.accessToken,
       task.id,
       labels

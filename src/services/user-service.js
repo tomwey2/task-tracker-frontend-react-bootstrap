@@ -1,16 +1,15 @@
-import http from "../http-common";
+class UserService {
+  getAllUsers(http, accessToken) {
+    const response = http({
+      method: "get",
+      url: "/api/users",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken
+      }
+    });
 
-function getAllUsers(accessToken) {
-  const response = http({
-    method: "get",
-    url: "/api/users",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + accessToken
-    }
-  });
-
-  return response;
+    return response;
+  }
 }
-
-export {getAllUsers};
+export default new UserService();
