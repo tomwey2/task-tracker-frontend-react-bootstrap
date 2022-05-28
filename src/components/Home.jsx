@@ -11,7 +11,6 @@ import AuthContext from "../AuthContext";
  */
 function Home({props}) {
   const {loggedInUser} = useContext(AuthContext);
-  console.log("home loggedInUser", loggedInUser);
   return (
     <Container className="p-4 text-center">
       <h1 className="mt-4">Welcome to the online task tracker</h1>

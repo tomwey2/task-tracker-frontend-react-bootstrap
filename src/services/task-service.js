@@ -1,38 +1,46 @@
 class TaskService {
-  async getTasksReportedByUser(http, accessToken) {
+  async getAllTasks(http) {
     return await http.get("/api/tasks");
   }
 
-  async getTaskById(http, accessToken, id) {
+  async getTaskById(http, id) {
     return await http.get("/api/tasks/" + id);
   }
 
-  async putTaskById(http, accessToken, id, formData, toggleReminder, state) {
+  async changeTaskById(
+    http,
+    id,
+    text,
+    description,
+    day,
+    toggleReminder,
+    state
+  ) {
     const body = {
-      text: formData.text,
-      description: formData.description,
-      day: formData.day,
+      text: text,
+      description: description,
+      day: day,
       reminder: toggleReminder,
       state: state
     };
     return await http.put("/api/tasks/" + id, JSON.stringify(body));
   }
 
-  async putChangeAssignees(http, accessToken, id, assignees) {
+  async changeAssigneesOfTaskById(http, id, assignees) {
     return await http.put(
       "/api/tasks/" + id + "/assignees",
       JSON.stringify(assignees)
     );
   }
 
-  async putChangeLabels(http, accessToken, id, labels) {
+  async changeLabelsOfTaskById(http, id, labels) {
     return await http.put(
       "/api/tasks/" + id + "/labels",
       JSON.stringify(labels)
     );
   }
 
-  async postNewTask(http, text, description, day, toggleReminder) {
+  async createNewTask(http, text, description, day, toggleReminder) {
     const body = {
       text: text,
       description: description,

@@ -350,11 +350,7 @@ function TaskId(props) {
   };
 
   const fetchTaskById = async () => {
-    const response = await TaskService.getTaskById(
-      http,
-      loggedInUser.accessToken,
-      params.id
-    );
+    const response = await TaskService.getTaskById(http, params.id);
     setTask(response.data);
     setFormData({
       ...formData,
@@ -366,11 +362,12 @@ function TaskId(props) {
   };
 
   const updateTaskById = async state => {
-    const response = await TaskService.putTaskById(
+    const response = await TaskService.changeTaskById(
       http,
-      loggedInUser.accessToken,
       params.id,
-      formData,
+      formData.text,
+      formData.description,
+      formData.day,
       toggleReminder,
       state
     );

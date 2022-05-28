@@ -39,17 +39,13 @@ function TaskAssigneesSelection({task, handleOnChangeTask}) {
   }, [assignees]);
 
   const fetchUsers = async () => {
-    const response = await UserService.getAllUsers(
-      http,
-      loggedInUser.accessToken
-    );
+    const response = await UserService.getAllUsers(http);
     setUsers(response.data);
   };
 
   const updateAssignees = async () => {
-    const response = await TaskService.putChangeAssignees(
+    const response = await TaskService.changeAssigneesOfTaskById(
       http,
-      loggedInUser.accessToken,
       task.id,
       assignees
     );

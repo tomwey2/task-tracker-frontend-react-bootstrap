@@ -38,7 +38,7 @@ function TaskNew(props) {
     e.preventDefault();
 
     try {
-      const response = await TaskService.postNewTask(
+      const response = await TaskService.createNewTask(
         http,
         e.target.tasktext.value,
         e.target.description.value,

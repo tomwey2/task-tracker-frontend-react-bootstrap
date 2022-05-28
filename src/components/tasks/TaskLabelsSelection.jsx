@@ -42,9 +42,8 @@ function TaskLabelsSelection({task, handleOnChangeTask}) {
   }, [labels]);
 
   const updateLabels = async () => {
-    const response = await TaskService.putChangeLabels(
+    const response = await TaskService.changeLabelsOfTaskById(
       http,
-      loggedInUser.accessToken,
       task.id,
       labels
     );

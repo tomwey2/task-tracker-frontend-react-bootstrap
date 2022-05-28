@@ -1,15 +1,7 @@
 class UserService {
-  getAllUsers(http, accessToken) {
-    const response = http({
-      method: "get",
-      url: "/api/users",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken
-      }
-    });
-
-    return response;
+  getAllUsers(http) {
+    return http.get("/api/users");
   }
 }
+
 export default new UserService();
