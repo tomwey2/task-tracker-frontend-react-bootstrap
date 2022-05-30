@@ -31,8 +31,19 @@ export const AuthProvider = ({children}) => {
     }).then(response => {
       // Success
       console.log("Login success", response);
-      setLoggedInUser(response.data);
-      localStorage.setItem("user", JSON.stringify(response.data));
+      setLoggedInUser({
+        email: response.data.email,
+        roles: response.data.roles
+      });
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          email: response.data.email,
+          roles: response.data.roles
+        })
+      );
+      localStorage.setItem("accessToken", response.data.accessToken);
+      localStorage.setItem("refreshToken", response.data.refreshToken);
 
       // redirect to uri
       if (location.state?.from) {
@@ -46,6 +57,8 @@ export const AuthProvider = ({children}) => {
   let logoutUser = () => {
     setLoggedInUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
   };
 
   let registerUser = async (username, email, password, directLogin = false) => {
