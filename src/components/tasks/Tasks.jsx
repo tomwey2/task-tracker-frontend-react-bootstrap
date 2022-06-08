@@ -5,7 +5,6 @@ import {useDataAxios} from "./../../http-common";
 
 import AuthContext from "../../AuthContext";
 // Embedded components
-import TasksFilter from "./TasksFilter";
 import TasksList from "./TasksList";
 
 /*
