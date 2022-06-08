@@ -26,8 +26,13 @@ function Tasks() {
     setIsOpenTasks(isOpen);
   };
 
-  const handleSelectTask = taskId => {
+  const handleOnSelectTask = taskId => {
     navigate("/tasks/" + taskId);
+  };
+
+  const handleOnSearchTasks = isOpen => {
+    console.log("SesarchTasks=", requestQuery);
+    navigate("/tasks?query=" + requestQuery);
   };
 
   useEffect(() => {
@@ -54,43 +59,17 @@ function Tasks() {
 
   return (
     <>
-      <TasksFilter requestQuery={requestQuery} />
       <TasksList
         tasks={isOpenTasks ? openTasks : closedTasks}
         countOpen={openTasks.length}
         countClosed={closedTasks.length}
-        onSelectTask={handleSelectTask}
+        handleOnSelectTask={handleOnSelectTask}
+        handleOnSearchTasks={handleOnSearchTasks}
         handleIsOpenTasks={switchIsOpenTasks}
+        requestQuery={requestQuery}
       />
     </>
   );
 }
-
-let testdata = [
-  {
-    id: "1",
-    text: "Food shopping",
-    description: "One time in week food must be bought.",
-    reportedBy: "John Doe",
-    project: "p1",
-    assignees: ["John Doe"]
-  },
-  {
-    id: "2",
-    text: "Doctor appointment",
-    description: "Meet the doctor to ask him about new set of medicament",
-    reportedBy: "John Doe",
-    project: "p1",
-    assignees: ["John Doe", "Jane Doe"]
-  },
-  {
-    id: "3",
-    text: "School party preparation",
-    description: "",
-    reportedBy: "John Doe",
-    project: "p1",
-    assignees: ["John Doe"]
-  }
-];
 
 export default Tasks;
