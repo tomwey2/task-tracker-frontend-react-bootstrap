@@ -41,7 +41,7 @@ function Header({title}) {
                 Logout
               </Nav.Link>
             </Nav>
-            <Navbar.Text>User: {loggedInUser.email}</Navbar.Text>
+            <Navbar.Text>User: {loggedInUser.username}</Navbar.Text>
           </>
         )}
       </Container>

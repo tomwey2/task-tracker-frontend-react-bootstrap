@@ -3,6 +3,10 @@ class TaskService {
     return await http.get("/api/tasks");
   }
 
+  async getTasks(http, query) {
+    return await http.get("/api/tasks?" + query);
+  }
+
   async getTaskById(http, id) {
     return await http.get("/api/tasks/" + id);
   }

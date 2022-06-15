@@ -1,6 +1,7 @@
 import {RecordCircle, Check2} from "react-bootstrap-icons";
 import {Link} from "react-router-dom";
 
+import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -40,48 +41,67 @@ function FilterHeader({countOpen, countClosed, handleIsOpenTasks}) {
 
 function SearchForm({requestQuery, handleOnSearchTasks}) {
   return (
-    <InputGroup className="mb-0">
-      <FormControl type="text" as="input" defaultValue={requestQuery} />
-      <Button
-        variant="outline-secondary"
-        id="button-search"
-        onClick={() => handleOnSearchTasks(false)}
-      >
-        Search
-      </Button>
-    </InputGroup>
+    <Form>
+      <InputGroup className="mb-0">
+        <FormControl
+          type="text"
+          as="input"
+          readOnly={true}
+          value={requestQuery}
+        />
+        <Button
+          variant="outline-secondary"
+          onClick={() => handleOnSearchTasks()}
+        >
+          Search
+        </Button>
+      </InputGroup>
+    </Form>
   );
 }
 
-function FilterDroplist(props) {
+function FilterDroplist({handleOnFilterTasks}) {
   return (
     <Dropdown as={NavItem} title="Filter">
-      <Dropdown.Item href="#/action-1">Your Tasks</Dropdown.Item>
-      <Dropdown.Item href="#/action-2">
+      <Dropdown.Item onClick={() => handleOnFilterTasks("")}>
+        Clear Filter
+      </Dropdown.Item>
+      <Dropdown.Item onClick={() => handleOnFilterTasks("reportedby:@me")}>
+        Your Tasks
+      </Dropdown.Item>
+      <Dropdown.Item onClick={() => handleOnFilterTasks("assignedto:@me")}>
         Everything assigned to you
       </Dropdown.Item>
-      <Dropdown.Item href="#/action-3">
-        View advanced search syntax
+    </Dropdown>
+  );
+}
+
+function Sort({handleOnSortTasks}) {
+  return (
+    <Dropdown as={NavItem} title="Sort by">
+      <Dropdown.Item onClick={() => handleOnSortTasks("sort:creation")}>
+        creation date
+      </Dropdown.Item>
+      <Dropdown.Item onClick={() => handleOnSortTasks("sort:reporter")}>
+        reporter
+      </Dropdown.Item>
+      <Dropdown.Item onClick={() => handleOnSortTasks("sort:assignee")}>
+        assignee
       </Dropdown.Item>
     </Dropdown>
   );
 }
 
-function Sort(props) {
-  return (
-    <Dropdown as={NavItem} title="Sort by">
-      <Dropdown.Item href="#/action-1">creation date</Dropdown.Item>
-      <Dropdown.Item href="#/action-2">reporter</Dropdown.Item>
-      <Dropdown.Item href="#/action-3">assignee</Dropdown.Item>
-    </Dropdown>
-  );
-}
-
-function CardHeader({requestQuery, handleOnSearchTasks}) {
+function CardHeader({
+  requestQuery,
+  handleOnSearchTasks,
+  handleOnFilterTasks,
+  handleOnSortTasks
+}) {
   return (
     <Row>
       <Col xs={12} md={2}>
-        <FilterDroplist />
+        <FilterDroplist handleOnFilterTasks={handleOnFilterTasks} />
       </Col>
       <Col xs={12} md={8}>
         <SearchForm
@@ -90,7 +110,7 @@ function CardHeader({requestQuery, handleOnSearchTasks}) {
         />
       </Col>
       <Col xs={12} md={2}>
-        <Sort />
+        <Sort handleOnSortTasks={handleOnSortTasks} />
       </Col>
     </Row>
   );
@@ -119,6 +139,7 @@ function CardBody({tasks, handleOnSelectTask}) {
     <Table className="table-hover fs-6" size="sm">
       <tbody>
         {tasks.map(task => {
+          console.log("task=", task);
           return (
             <TaskRow
               key={task.id}
@@ -138,10 +159,11 @@ function TasksList({
   countClosed,
   handleOnSelectTask,
   handleOnSearchTasks,
+  handleOnFilterTasks,
+  handleOnSortTasks,
   handleIsOpenTasks,
   requestQuery
 }) {
-  console.log("TasksList=", requestQuery);
   return (
     <Container>
       <FilterHeader
@@ -154,6 +176,8 @@ function TasksList({
           <CardHeader
             requestQuery={requestQuery}
             handleOnSearchTasks={handleOnSearchTasks}
+            handleOnFilterTasks={handleOnFilterTasks}
+            handleOnSortTasks={handleOnSortTasks}
           />
         </Card.Header>
         <Card.Body>

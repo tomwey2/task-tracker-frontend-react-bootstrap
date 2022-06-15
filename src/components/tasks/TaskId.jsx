@@ -289,6 +289,7 @@ function TaskBody({
 function TaskId(props) {
   const http = useDataAxios();
   const params = useParams();
+  console.log("TaskId params", params);
   const {loggedInUser} = useContext(AuthContext);
   const [task, setTask] = useState(null);
   const [editmode, setEditmode] = useState(false);
@@ -350,15 +351,21 @@ function TaskId(props) {
   };
 
   const fetchTaskById = async () => {
+    console.log("fetchTaskById id=", params.id);
     const response = await TaskService.getTaskById(http, params.id);
-    setTask(response.data);
-    setFormData({
-      ...formData,
-      text: response.data.text,
-      description: response.data.description,
-      day: response.data.day
-    });
-    setToggleReminder(response.data.reminder);
+    if (response.status === 200) {
+      console.log("fetchTaskById response=", response);
+      setTask(response.data);
+      setFormData({
+        ...formData,
+        text: response.data.text,
+        description: response.data.description,
+        day: response.data.day
+      });
+      setToggleReminder(response.data.reminder);
+    } else {
+      console.log("fetchTaskById response error status=", response.status);
+    }
   };
 
   const updateTaskById = async state => {

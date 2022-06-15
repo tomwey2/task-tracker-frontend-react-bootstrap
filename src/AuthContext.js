@@ -22,7 +22,7 @@ export const AuthProvider = ({children}) => {
       method: "post",
       url: "/login",
       data: qs.stringify({
-        email: username,
+        username: username,
         password: password
       }),
       headers: {
@@ -32,13 +32,13 @@ export const AuthProvider = ({children}) => {
       // Success
       console.log("Login success", response);
       setLoggedInUser({
-        email: response.data.email,
+        username: response.data.username,
         roles: response.data.roles
       });
       localStorage.setItem(
         "user",
         JSON.stringify({
-          email: response.data.email,
+          username: response.data.username,
           roles: response.data.roles
         })
       );

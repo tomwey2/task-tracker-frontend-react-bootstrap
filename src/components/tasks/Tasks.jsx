@@ -1,5 +1,6 @@
 import {useState, useEffect, useContext} from "react";
 import {useNavigate} from "react-router";
+import {useSearchParams} from "react-router-dom";
 import TaskService from "../../services/task-service";
 import {useDataAxios} from "./../../http-common";
 
@@ -12,16 +13,23 @@ import TasksList from "./TasksList";
  * This component contains sub components to set a tasks filter
  * and to list all tasks (as table).
  */
-function Tasks() {
+function Tasks(props) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  console.log("Tasks search params=", searchParams);
   const navigate = useNavigate();
   const http = useDataAxios();
   const {loggedInUser} = useContext(AuthContext);
   const [openTasks, setOpenTasks] = useState([]);
   const [closedTasks, setClosedTasks] = useState([]);
+  const [taskList, setTaskList] = useState([]);
   const [isOpenTasks, setIsOpenTasks] = useState(true);
   const [requestQuery, setRequestQuery] = useState("is:open");
+  const [requestFilter, setRequestFilter] = useState("");
+  const [requestSort, setRequestSort] = useState("");
 
   const switchIsOpenTasks = isOpen => {
+    setRequestFilter("");
+    setRequestSort("");
     setIsOpenTasks(isOpen);
   };
 
@@ -29,41 +37,62 @@ function Tasks() {
     navigate("/tasks/" + taskId);
   };
 
-  const handleOnSearchTasks = isOpen => {
-    console.log("SesarchTasks=", requestQuery);
-    navigate("/tasks?query=" + requestQuery);
+  const handleOnSearchTasks = () => {
+    var query =
+      (isOpenTasks ? "is:open" : "is:closed") +
+      (requestFilter.length > 0 ? "&" : "") +
+      requestFilter +
+      (requestSort.length > 0 ? "&" : "") +
+      requestSort;
+    console.log("navigate to /tasks?query=" + query);
+    navigate("/tasks?query=" + query);
+  };
+
+  const handleOnFilterTasks = filter => {
+    setRequestFilter(filter);
+  };
+
+  const handleOnSortTasks = sort => {
+    setRequestSort(sort);
   };
 
   useEffect(() => {
+    console.log("useEffect");
     fetchTasks();
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
-    if (isOpenTasks) {
-      setRequestQuery("is:open");
-    } else {
-      setRequestQuery("is:closed");
-    }
+    var query =
+      (isOpenTasks ? "is:open" : "is:closed") +
+      (requestFilter.length > 0 ? "&" : "") +
+      requestFilter +
+      (requestSort.length > 0 ? "&" : "") +
+      requestSort;
+    setRequestQuery(query);
+  }, [isOpenTasks, requestFilter, requestSort]);
+
+  useEffect(() => {
+    console.log("useEffect isOpenTasks");
+    handleOnSearchTasks();
   }, [isOpenTasks]);
 
-  useEffect(() => {
-    navigate("/tasks?filter=" + requestQuery);
-  }, [requestQuery]);
-
   const fetchTasks = async () => {
-    const response = await TaskService.getAllTasks(http);
-    setOpenTasks(response.data.filter(task => task.state === "Open"));
-    setClosedTasks(response.data.filter(task => task.state === "Closed"));
+    console.log("fetchTasks=", searchParams);
+    const response = await TaskService.getTasks(http, searchParams);
+    console.log("fetchTasks response=", response);
+    setTaskList(response.data._embedded.tasks);
   };
 
   return (
     <>
       <TasksList
-        tasks={isOpenTasks ? openTasks : closedTasks}
+        tasks={taskList}
         countOpen={openTasks.length}
         countClosed={closedTasks.length}
         handleOnSelectTask={handleOnSelectTask}
         handleOnSearchTasks={handleOnSearchTasks}
+        handleOnFilterTasks={handleOnFilterTasks}
+        handleOnSortTasks={handleOnSortTasks}
         handleIsOpenTasks={switchIsOpenTasks}
         requestQuery={requestQuery}
       />

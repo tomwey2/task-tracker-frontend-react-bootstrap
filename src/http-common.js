@@ -60,6 +60,11 @@ export const useDataAxios = () => {
           }
         });
       }
+      if (error.response.status === 404) {
+        // NOT FOUND
+        console.log("error", error);
+        return error.response;
+      }
     }
   );
 
