@@ -166,11 +166,7 @@ function TaskHeader({
                   Close
                 </Button>
               ) : (
-                <Button
-                  variant="outline-dark"
-                  size="sm"
-                  onClick={handleOnReopen}
-                >
+                <Button variant="outline-dark" onClick={handleOnReopen}>
                   Re-open
                 </Button>
               )}
