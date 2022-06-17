@@ -124,12 +124,12 @@ function TaskRow({task, handleOnSelectTask}) {
         <b>{task.text}</b>
         <small>
           <p>
-            #{task.id} reported by {task.reportedBy.name}
+            #{task.id} reported by {task.reportedBy.username}
           </p>
         </small>
       </td>
       <td></td>
-      <td align="right">{task.assignees.map(x => x.name).join(", ")}</td>
+      <td align="right">{task.assignees.map(x => x.username).join(", ")}</td>
     </tr>
   );
 }

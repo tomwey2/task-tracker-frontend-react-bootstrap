@@ -84,7 +84,7 @@ function TaskAssigneesSelection({task, handleOnChangeTask}) {
                 onClick={() => removeAssignee(user)}
               >
                 <DashCircle />
-                <span className="ms-2">{user.name}</span>
+                <span className="ms-2">{user.username}</span>
               </ListGroup.Item>
             ) : (
               <ListGroup.Item
@@ -93,7 +93,7 @@ function TaskAssigneesSelection({task, handleOnChangeTask}) {
                 onClick={() => addAssignee(user)}
               >
                 <PlusCircle />
-                <span className="ms-2">{user.name}</span>
+                <span className="ms-2">{user.username}</span>
               </ListGroup.Item>
             )
           )}

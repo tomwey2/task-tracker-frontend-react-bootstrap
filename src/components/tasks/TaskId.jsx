@@ -210,7 +210,7 @@ function TaskHeader({
       </Button>
 
       <span className="ms-2">
-        <b>{task.reportedBy.name}</b> opened this task at {task.createdAt}
+        <b>{task.reportedBy.username}</b> opened this task at {task.createdAt}
       </span>
     </>
   );

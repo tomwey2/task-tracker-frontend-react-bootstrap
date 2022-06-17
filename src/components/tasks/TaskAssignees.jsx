@@ -15,7 +15,7 @@ function TaskAssignees({task, handleOnChangeTask}) {
           />
         </Nav.Item>
       </Nav>
-      {task.assignees.map(x => x.name).join(", ")}
+      {task.assignees.map(x => x.username).join(", ")}
     </>
   );
 }
