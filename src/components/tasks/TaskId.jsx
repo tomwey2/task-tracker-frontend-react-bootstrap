@@ -162,11 +162,7 @@ function TaskHeader({
           <>
             <Nav.Item className="ms-auto">
               {task.state === "Open" ? (
-                <Button
-                  variant="outline-dark"
-                  size="sm"
-                  onClick={handleOnClosed}
-                >
+                <Button variant="outline-dark" onClick={handleOnClosed}>
                   Close
                 </Button>
               ) : (
@@ -180,14 +176,17 @@ function TaskHeader({
               )}
             </Nav.Item>
             <Nav.Item className="ms-2">
-              <Button variant="outline-dark" size="sm" onClick={handleEditmode}>
+              <Button variant="outline-dark" onClick={handleEditmode}>
                 Edit
               </Button>
+            </Nav.Item>
+            <Nav.Item className="ms-2">
+              <Button variant="outline-dark">Delete</Button>
             </Nav.Item>
             <Nav.Item>
               <Link
                 to="/tasks"
-                className="ms-2 btn btn-success btn-sm"
+                className="ms-2 btn btn-success btn"
                 role="button"
               >
                 Back to list
