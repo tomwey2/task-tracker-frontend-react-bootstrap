@@ -80,7 +80,7 @@ function Tasks(props) {
     console.log("fetchTasks=", searchParams);
     const response = await TaskService.getTasks(http, searchParams);
     console.log("fetchTasks response=", response);
-    setTaskList(response.data._embedded.tasks);
+    setTaskList(response.data.taskList._embedded.tasks);
   };
 
   return (
