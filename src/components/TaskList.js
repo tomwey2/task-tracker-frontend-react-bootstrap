@@ -1,22 +1,21 @@
-import {RecordCircle, Check2} from "react-bootstrap-icons";
-import {Link} from "react-router-dom";
+import { RecordCircle, Check2 } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
+import {
+  Container,
+  Card,
+  Table,
+  Row,
+  Col,
+  Nav,
+  Dropdown,
+  DropdownButton,
+  Button,
+  InputGroup,
+  Form,
+  FormControl,
+} from "react-bootstrap";
 
-import Form from "react-bootstrap/Form";
-import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
-import InputGroup from "react-bootstrap/InputGroup";
-
-import Card from "react-bootstrap/Card";
-import Nav from "react-bootstrap/Nav";
-import NavItem from "react-bootstrap/NavItem";
-import NavLink from "react-bootstrap/NavLink";
-import Container from "react-bootstrap/Container";
-import Dropdown from "react-bootstrap/NavDropdown";
-import Table from "react-bootstrap/Table";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-
-function FilterHeader({countOpen, countClosed, handleIsOpenTasks}) {
+function FilterHeader({ countOpen, countClosed, handleIsOpenTasks }) {
   return (
     <Container className="p-2">
       <Nav>
@@ -39,7 +38,7 @@ function FilterHeader({countOpen, countClosed, handleIsOpenTasks}) {
   );
 }
 
-function SearchForm({requestQuery, handleOnSearchTasks}) {
+function SearchForm({ requestQuery, handleOnSearchTasks }) {
   return (
     <Form>
       <InputGroup className="mb-0">
@@ -60,9 +59,9 @@ function SearchForm({requestQuery, handleOnSearchTasks}) {
   );
 }
 
-function FilterDroplist({handleOnFilterTasks}) {
+function FilterDroplist({ handleOnFilterTasks }) {
   return (
-    <Dropdown as={NavItem} title="Filter">
+    <DropdownButton title="Filter">
       <Dropdown.Item onClick={() => handleOnFilterTasks("")}>
         Clear Filter
       </Dropdown.Item>
@@ -72,13 +71,13 @@ function FilterDroplist({handleOnFilterTasks}) {
       <Dropdown.Item onClick={() => handleOnFilterTasks("assignedto:@me")}>
         Everything assigned to you
       </Dropdown.Item>
-    </Dropdown>
+    </DropdownButton>
   );
 }
 
-function Sort({handleOnSortTasks}) {
+function Sort({ handleOnSortTasks }) {
   return (
-    <Dropdown as={NavItem} title="Sort by">
+    <DropdownButton title="Sort by">
       <Dropdown.Item onClick={() => handleOnSortTasks("sort:creation")}>
         creation date
       </Dropdown.Item>
@@ -88,7 +87,7 @@ function Sort({handleOnSortTasks}) {
       <Dropdown.Item onClick={() => handleOnSortTasks("sort:assignee")}>
         assignee
       </Dropdown.Item>
-    </Dropdown>
+    </DropdownButton>
   );
 }
 
@@ -96,7 +95,7 @@ function CardHeader({
   requestQuery,
   handleOnSearchTasks,
   handleOnFilterTasks,
-  handleOnSortTasks
+  handleOnSortTasks,
 }) {
   return (
     <Row>
@@ -116,29 +115,30 @@ function CardHeader({
   );
 }
 
-function TaskRow({task, handleOnSelectTask}) {
+function TaskRow({ task, handleOnSelectTask }) {
   return (
     <tr key={task.id} onClick={() => handleOnSelectTask(task.id)}>
       {/* a click on the tr navigates to /users/:id */}
       <td>
-        <b>{task.text}</b>
+        <b>#{task.id}</b>
+      </td>
+      <td>{task.createdAt}</td>
+      <td>
+        <b>{task.title}</b>
         <small>
-          <p>
-            #{task.id} reported by {task.reportedBy.username}
-          </p>
+          <p>{task.description}</p>
         </small>
       </td>
-      <td></td>
-      <td align="right">{task.assignees.map(x => x.username).join(", ")}</td>
+      <td>{task.state}</td>
     </tr>
   );
 }
 
-function CardBody({tasks, handleOnSelectTask}) {
+function CardBody({ tasks, handleOnSelectTask }) {
   return (
-    <Table className="table-hover fs-6" size="sm">
+    <Table striped hover bordered>
       <tbody>
-        {tasks.map(task => {
+        {tasks.map((task) => {
           console.log("task=", task);
           return (
             <TaskRow
@@ -162,7 +162,7 @@ function TasksList({
   handleOnFilterTasks,
   handleOnSortTasks,
   handleIsOpenTasks,
-  requestQuery
+  requestQuery,
 }) {
   return (
     <Container>

@@ -1,6 +1,5 @@
-import {Github} from "react-bootstrap-icons";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
+import { Github } from "react-bootstrap-icons";
+import { Nav, Container } from "react-bootstrap";
 
 /*
  * The footer component with copyright info and links to social media.
@@ -12,7 +11,7 @@ function Footer() {
         <Nav className="justify-content-center" activeKey="/home">
           <Nav.Item className="">
             <Nav.Link className="link-dark" href="https://weyrath.com/">
-              (c) 2022 Thomas Weyrath
+              (c) 2025 Thomas Weyrath
             </Nav.Link>
           </Nav.Item>
           <Nav.Item className="ms-auto">

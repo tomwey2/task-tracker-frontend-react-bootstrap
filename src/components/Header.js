@@ -1,7 +1,7 @@
-import {useContext} from "react";
-import {Link} from "react-router-dom";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 
-import {Flower2} from "react-bootstrap-icons";
+import { Flower2 } from "react-bootstrap-icons";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
@@ -10,8 +10,8 @@ import AuthContext from "../AuthContext";
 /*
  * The header component with brand (left) and user info/commands (right).
  */
-function Header({title}) {
-  const {loggedInUser, logoutUser} = useContext(AuthContext);
+function Header({ title }) {
+  const { loggedInUser, logoutUser } = useContext(AuthContext);
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
@@ -50,7 +50,7 @@ function Header({title}) {
 }
 
 Header.defaultProps = {
-  title: "Task Tracker"
+  title: "Task Tracker",
 };
 
 export default Header;
