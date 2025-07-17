@@ -26,7 +26,7 @@ function Navigation() {
           {user ? (
             <>
               <Navbar.Text className="me-3 text-white">
-                Angemeldet als: {user.name}
+                Signed as: {user.username}
               </Navbar.Text>
               <Button variant="outline-light" onClick={handleLogout}>
                 Logout
