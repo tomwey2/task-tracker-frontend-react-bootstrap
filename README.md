@@ -31,7 +31,7 @@ The list of tasks can be reduced by a filter. The following filters are allowed:
 > Important: a user can only see the tasks that he/she has reported or he/she is assigned to. Exception is a logged-in user with role ADMIN. This user can see all tasks.
 
 ## Usage
-
+### Run Local
 Run the application:
 
     npm start
@@ -52,6 +52,25 @@ Build the application for deployment:
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### Run as Docker Container
+Build the docker image
+
+    docker build -t task-tracker-frontend .
+
+Start the docker Container
+
+    docker run -d -p 8080:80 --name task-tracker-frontend task-tracker-frontend
+
+Run the application in browser
+
+    http://localhost:8080
+
+To ensure that the frontend knows which URL to use to access the backend API on the server, an environment variable must be set. The best way to do this is via a file called .env.production in the root directory of the React project with the following content:
+
+    REACT_APP_API_URL=http://<server-domain>:<port>/api
+
+When npm run build is executed (which happens in the Dockerfile), React will use this variable. The code accesses it with process.env.REACT_APP_API_URL.
 
 ## Information about the used frameworks
 Further information you can find at:
