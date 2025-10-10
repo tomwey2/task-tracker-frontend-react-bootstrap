@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://192.168.1.42:15001/api", // Ersetze dies mit deiner Backend-URL
+  baseURL: process.env.REACT_APP_API_URL,
 });
 
 // Interceptor, um den Token zu jeder Anfrage hinzuzufügen
