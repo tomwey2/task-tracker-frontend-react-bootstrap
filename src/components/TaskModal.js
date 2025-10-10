@@ -35,9 +35,12 @@ function TaskModal({ show, handleClose, handleSave, task, projectId }) {
     const fetchUsers = async () => {
       try {
         const response = await userService.getUsers();
-        setUsers(response.data._embedded.userResponseDtoList);
+        // Try to get the user list from the embedded object, or fall back to the response data itself.
+        const userList = response.data?._embedded?.users || response.data || [];
+        setUsers(userList);
       } catch (error) {
         console.error("Fehler beim Laden der Benutzer", error);
+        setUsers([]); // Set to empty array on error
       }
     };
     fetchUsers();
@@ -106,9 +109,9 @@ function TaskModal({ show, handleClose, handleSave, task, projectId }) {
               required
             >
               <option value="">Bitte auswählen</option>
-              {users.map((user) => (
+              {(users || []).map((user) => (
                 <option key={user.id} value={user.id}>
-                  {user.name}
+                  {user.username}
                 </option>
               ))}
             </Form.Select>

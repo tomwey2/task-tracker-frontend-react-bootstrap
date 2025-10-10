@@ -15,7 +15,12 @@ import {
   FormControl,
 } from "react-bootstrap";
 
-function FilterHeader({ countOpen, countClosed, handleIsOpenTasks }) {
+function FilterHeader({
+  countOpen,
+  countClosed,
+  handleIsOpenTasks,
+  handleShowNewTaskModal,
+}) {
   return (
     <Container className="p-2">
       <Nav>
@@ -30,9 +35,13 @@ function FilterHeader({ countOpen, countClosed, handleIsOpenTasks }) {
             <Check2 /> <span className="ms-2">{countClosed}</span> Closed
           </Nav.Link>
         </Nav.Item>
-        <Link to="/tasks/new" className="ms-auto btn btn-success" role="button">
-          New Tasks
-        </Link>
+        <Button
+          variant="success"
+          className="ms-auto"
+          onClick={handleShowNewTaskModal}
+        >
+          New Task
+        </Button>
       </Nav>
     </Container>
   );
@@ -138,7 +147,7 @@ function CardBody({ tasks, handleOnSelectTask }) {
   return (
     <Table striped hover bordered>
       <tbody>
-        {tasks.map((task) => {
+        {(tasks || []).map((task) => {
           console.log("task=", task);
           return (
             <TaskRow
@@ -162,6 +171,7 @@ function TasksList({
   handleOnFilterTasks,
   handleOnSortTasks,
   handleIsOpenTasks,
+  handleShowNewTaskModal, // Add this prop
   requestQuery,
 }) {
   return (
@@ -170,6 +180,7 @@ function TasksList({
         countOpen={countOpen}
         countClosed={countClosed}
         handleIsOpenTasks={handleIsOpenTasks}
+        handleShowNewTaskModal={handleShowNewTaskModal} // Pass it down
       />
       <Card>
         <Card.Header>
