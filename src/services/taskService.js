@@ -11,10 +11,13 @@ const createTask = (projectId, userId, taskData) =>
 const updateTask = (taskId, taskData) => api.put(`/tasks/${taskId}`, taskData);
 const deleteTask = (taskId) => api.delete(`/tasks/${taskId}`);
 
+const getTask = (taskId) => api.get(`/tasks/${taskId}`);
+
 const taskService = {
   getTasksByProjectId,
   createTask,
   updateTask,
   deleteTask,
+  getTask,
 };
 export default taskService;

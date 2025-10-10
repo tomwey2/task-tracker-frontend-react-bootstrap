@@ -17,7 +17,7 @@ import Home from "./components/Home";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import DashboardPage from "./pages/DashboardPage";
-import ProjectDetailPage from "./pages/ProjectDetailPage";
+import TaskDetailPage from "./pages/TaskDetailPage";
 
 // Hilfskomponente für geschützte Routen
 function PrivateRoute({ children }) {
@@ -54,6 +54,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <DashboardPage projectId={1} />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/tasks/:taskId"
+              element={
+                <PrivateRoute>
+                  <TaskDetailPage />
                 </PrivateRoute>
               }
             />
