@@ -3,7 +3,7 @@ pipeline {
      environment {
         GHCR_CREDENTIALS = credentials("tomwey2-ghcr")
         IMAGE_NAME = 'task-tracker-frontend'
-        IMAGE_VERSION = '0.1.0'
+        IMAGE_VERSION = '0.2.0'
      }
      stages {
         stage("initialize") {
