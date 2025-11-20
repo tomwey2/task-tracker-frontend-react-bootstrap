@@ -57,7 +57,7 @@ function Comment({ comment, taskId, onCommentDeleted, onCommentUpdated }) {
         )}
         <small>
           Comment by: {author?.username || "Unknown user"} on{" "}
-          {new Date(comment.createdAt).toLocaleDateString()}
+          {new Date(comment.updatedAt + "Z").toLocaleString("de-DE")}
         </small>
       </td>
       <td>
