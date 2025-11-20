@@ -164,6 +164,8 @@ function CommentList({ taskId }) {
           <h5>Comments</h5>
         </Card.Header>
         <Card.Body>
+          <AddComment taskId={taskId} onCommentAdded={fetchComments} />
+          <hr />
           <Table>
             <tbody>
               {comments.map((comment) => (
@@ -177,7 +179,6 @@ function CommentList({ taskId }) {
               ))}
             </tbody>
           </Table>
-          <AddComment taskId={taskId} onCommentAdded={fetchComments} />
         </Card.Body>
       </Card>
     </Container>
