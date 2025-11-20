@@ -116,7 +116,11 @@ function CommentList({ taskId }) {
           response.data._embedded &&
           Array.isArray(response.data._embedded.comments)
         ) {
-          setComments(response.data._embedded.comments);
+          const fetchedComments = response.data._embedded.comments;
+          fetchedComments.sort(
+            (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt),
+          );
+          setComments(fetchedComments);
         } else {
           setComments([]);
         }
