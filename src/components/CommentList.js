@@ -1,10 +1,28 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Container, Card, Table, Button, Form } from "react-bootstrap";
 import commentService from "../services/commentService";
+import userService from "../services/userService";
+import api from "../services/api";
 
 function Comment({ comment, taskId, onCommentDeleted, onCommentUpdated }) {
   const [isEditing, setIsEditing] = useState(false);
   const [content, setContent] = useState(comment.content);
+  const [author, setAuthor] = useState(null);
+
+  useEffect(() => {
+    const fetchAuthor = async () => {
+      if (comment._links?.author?.href) {
+        try {
+          const userResponse = await api.get(comment._links.author.href);
+          setAuthor(userResponse.data);
+        } catch (error) {
+          console.error("Failed to fetch author via link:", error);
+        }
+      }
+    };
+
+    fetchAuthor();
+  }, [comment._links?.author?.href]);
 
   const handleUpdate = async () => {
     try {
@@ -38,7 +56,7 @@ function Comment({ comment, taskId, onCommentDeleted, onCommentUpdated }) {
           <p>{comment.content}</p>
         )}
         <small>
-          Comment by: {comment.user?.username || "Unknown user"} on{" "}
+          Comment by: {author?.username || "Unknown user"} on{" "}
           {new Date(comment.createdAt).toLocaleDateString()}
         </small>
       </td>
