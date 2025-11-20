@@ -12,6 +12,8 @@ import {
 } from "react-bootstrap";
 import taskService from "../services/taskService";
 
+import CommentList from "../components/CommentList";
+
 function TaskDetailPage() {
   const { taskId } = useParams();
   const navigate = useNavigate();
@@ -226,6 +228,11 @@ function TaskDetailPage() {
               </div>
             </Card.Footer>
           </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <CommentList taskId={taskId} />
         </Col>
       </Row>
     </Container>
