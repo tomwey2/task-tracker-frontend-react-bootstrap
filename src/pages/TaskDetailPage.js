@@ -154,18 +154,20 @@ function TaskDetailPage() {
             <Card.Body>
               {isEditing ? (
                 <Form>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      rows={3}
-                      name="description"
-                      value={formData.description}
-                      onChange={handleChange}
-                    />
-                  </Form.Group>
                   <Row>
-                    <Col md={6}>
+                    <Col md={7}>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Description</Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          rows={3}
+                          name="description"
+                          value={formData.description}
+                          onChange={handleChange}
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={5}>
                       <Form.Group className="mb-3">
                         <Form.Label>Status</Form.Label>
                         <Form.Select
@@ -178,8 +180,6 @@ function TaskDetailPage() {
                           <option value="Closed">Closed</option>
                         </Form.Select>
                       </Form.Group>
-                    </Col>
-                    <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Assigned to User</Form.Label>
                         <Form.Select
@@ -198,10 +198,6 @@ function TaskDetailPage() {
                           ))}
                         </Form.Select>
                       </Form.Group>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Fällig am</Form.Label>
                         <Form.Control
@@ -216,25 +212,20 @@ function TaskDetailPage() {
                 </Form>
               ) : (
                 <>
-                  <Card.Text>
-                    <strong>Beschreibung:</strong>
-                    <br />
-                    {task.description || "Keine Beschreibung vorhanden."}
-                  </Card.Text>
-                  <hr />
                   <Row>
-                    <Col md={6}>
+                    <Col md={7}>
+                      <Card.Text>
+                        <strong>Beschreibung:</strong>
+                        <br />
+                        {task.description || "Keine Beschreibung vorhanden."}
+                      </Card.Text>
+                    </Col>
+                    <Col md={5}>
                       <p>
                         <strong>Status:</strong> {task.state}
                       </p>
                       <p>
                         <strong>Assigned to User:</strong> {assignedUserName}
-                      </p>
-                    </Col>
-                    <Col md={6}>
-                      <p>
-                        <strong>Erstellt am:</strong>{" "}
-                        {new Date(task.createdAt).toLocaleDateString()}
                       </p>
                       <p>
                         <strong>Fällig am:</strong>{" "}
