@@ -20,11 +20,13 @@ function TaskDetailPage() {
   const { taskId } = useParams();
   const navigate = useNavigate();
   const [task, setTask] = useState(null);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({ assignedToUserId: "" });
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [assignedUserName, setAssignedUserName] = useState("");
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchTask = async () => {
@@ -47,6 +49,8 @@ function TaskDetailPage() {
           setAssignedUserName(userResponse.data.username);
         }
 
+        const usersResponse = await userService.getUsers();
+        setUsers(usersResponse.data._embedded.users);
         setError(null);
       } catch (err) {
         setError("Fehler beim Laden des Tasks.");
@@ -66,10 +70,19 @@ function TaskDetailPage() {
 
   const handleSave = async () => {
     try {
+      console.info("formData: ", formData);
       await taskService.updateTask(taskId, formData);
       setTask(formData);
       setIsEditing(false);
       setError(null);
+
+      // Fetch the updated user name
+      if (formData.assignedToUserId) {
+        const userResponse = await userService.getUserById(
+          formData.assignedToUserId,
+        );
+        setAssignedUserName(userResponse.data.username);
+      }
     } catch (err) {
       setError("Fehler beim Speichern des Tasks.");
       console.error(err);
@@ -169,12 +182,21 @@ function TaskDetailPage() {
                     <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Assigned to User</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="assignedToUser"
-                          value={formData.assignedToUser}
-                          onChange={handleChange}
-                        />
+                        <Form.Select
+                          name="assignedToUserId"
+                          value={formData.assignedToUserId}
+                          onChange={(e) => {
+                            handleChange(e);
+                            setSelectedUserId(e.target.value);
+                          }}
+                        >
+                          <option value="">Select a user</option>
+                          {users.map((user) => (
+                            <option key={user.id} value={user.id}>
+                              {user.username}
+                            </option>
+                          ))}
+                        </Form.Select>
                       </Form.Group>
                     </Col>
                   </Row>
