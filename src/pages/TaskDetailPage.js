@@ -11,8 +11,10 @@ import {
   Form,
 } from "react-bootstrap";
 import taskService from "../services/taskService";
+import userService from "../services/userService";
 
 import CommentList from "../components/CommentList";
+import { logDOM } from "@testing-library/dom";
 
 function TaskDetailPage() {
   const { taskId } = useParams();
@@ -22,14 +24,29 @@ function TaskDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [assignedUserName, setAssignedUserName] = useState("");
 
   useEffect(() => {
     const fetchTask = async () => {
       try {
         setLoading(true);
         const response = await taskService.getTask(taskId);
-        setTask(response.data);
-        setFormData(response.data); // Initialize form data
+        const taskData = response.data;
+        setTask(taskData);
+        setFormData(taskData); // Initialize form data
+
+        if (
+          taskData._links &&
+          taskData._links.assignedTo &&
+          taskData._links.assignedTo.href
+        ) {
+          const userResponse = await userService.getUser(
+            taskData._links.assignedTo.href,
+          );
+          console.info("user: ", userResponse);
+          setAssignedUserName(userResponse.data.username);
+        }
+
         setError(null);
       } catch (err) {
         setError("Fehler beim Laden des Tasks.");
@@ -101,6 +118,13 @@ function TaskDetailPage() {
     <Container className="mt-4">
       <Row>
         <Col>
+          <Button variant="secondary" onClick={() => navigate(-1)}>
+            Zurück
+          </Button>
+        </Col>
+      </Row>
+      <Row className="mt-4">
+        <Col>
           <Card>
             <Card.Header as="h2">
               {isEditing ? (
@@ -118,7 +142,7 @@ function TaskDetailPage() {
               {isEditing ? (
                 <Form>
                   <Form.Group className="mb-3">
-                    <Form.Label>Beschreibung</Form.Label>
+                    <Form.Label>Description</Form.Label>
                     <Form.Control
                       as="textarea"
                       rows={3}
@@ -144,16 +168,13 @@ function TaskDetailPage() {
                     </Col>
                     <Col md={6}>
                       <Form.Group className="mb-3">
-                        <Form.Label>Priorität</Form.Label>
-                        <Form.Select
-                          name="priority"
-                          value={formData.priority}
+                        <Form.Label>Assigned to User</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="assignedToUser"
+                          value={formData.assignedToUser}
                           onChange={handleChange}
-                        >
-                          <option value="Low">Low</option>
-                          <option value="Medium">Medium</option>
-                          <option value="High">High</option>
-                        </Form.Select>
+                        />
                       </Form.Group>
                     </Col>
                   </Row>
@@ -185,7 +206,7 @@ function TaskDetailPage() {
                         <strong>Status:</strong> {task.state}
                       </p>
                       <p>
-                        <strong>Priorität:</strong> {task.priority}
+                        <strong>Assigned to User:</strong> {assignedUserName}
                       </p>
                     </Col>
                     <Col md={6}>
